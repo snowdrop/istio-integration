@@ -1,0 +1,2 @@
+- name: Create namespace
+  shell: oc new-project istio-system

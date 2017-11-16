@@ -1,0 +1,8 @@
+- name: Create namespace
+  shell: |
+    oc adm policy add-scc-to-user anyuid -z istio-ingress-service-account
+    oc adm policy add-scc-to-user anyuid -z istio-egress-service-account
+    oc adm policy add-scc-to-user anyuid -z istio-pilot-service-account
+    oc adm policy add-scc-to-user anyuid -z default
+
+    oc adm policy add-scc-to-user privileged -z default -z istio-system

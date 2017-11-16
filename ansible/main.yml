@@ -3,7 +3,9 @@
   gather_facts: true
 
   tasks:
-    - import_tasks: minishift/stop_delete.yml
-    - import_tasks: minishift/config.yml
-    - import_tasks: minishift/start.yml
-    - import_tasks: ocp/post.yml
+    # - import_tasks: minishift/stop_delete.yml
+    # - import_tasks: minishift/config.yml
+    # - import_tasks: minishift/start.yml
+    # - import_tasks: ocp/log_admin.yml
+    # - import_tasks: istio/create_namespace.yml
+    - import_tasks: istio/change_scc.yml
