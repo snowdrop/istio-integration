@@ -1,12 +1,9 @@
 ---
 - hosts: localhost
   gather_facts: true
-  vars:
-    # ansible_python_interpreter: /usr/bin/python3
-
-  vars_files:
-    - etc/config.yaml
 
   tasks:
-    - import_tasks: minishift_setup.yml
-    - import_tasks: ocp_post.yml
+    - import_tasks: minishift/stop_delete.yml
+    - import_tasks: minishift/config.yml
+    - import_tasks: minishift/start.yml
+    - import_tasks: ocp/post.yml

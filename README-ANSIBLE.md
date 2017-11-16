@@ -15,7 +15,7 @@ ansible-galaxy install chouseknecht.minishift-up-role
 and execute the following command to install it
 
 ```bash
-ansible-playbook ansible/minishift-install.yml.yml
+ansible-playbook ansible/minishift/install.yml
 ```
 
 - Now, you can run the following playbook to configure minishift vm and install istio

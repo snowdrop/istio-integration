@@ -1,0 +1,10 @@
+- name: Check if Minishift is running
+  shell: minishift status
+  register: minishift_status
+
+- name: Stop Minishift as it runs
+  command: minishift stop
+  when: "'Running' in minishift_status.stdout"
+
+- name: Delete Minishift VM
+  command: minishift delete --force

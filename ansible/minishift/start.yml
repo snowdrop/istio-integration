@@ -1,0 +1,5 @@
+- name: Start minishift
+  command: minishift start
+  register: ps
+
+- debug: var=ps.stdout_lines

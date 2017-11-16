@@ -1,0 +1,16 @@
+- name: Load config of the minishift vm
+  include_vars: vm_config.yaml
+
+- name: Configure minishift vm, cpu, memory
+  shell: |
+    minishift config set {{ item.key }} {{ item.value }}
+  with_items: "{{ parameters }}"
+  register: ps
+
+- debug: var=ps.stdout_lines
+
+- name: Add minishift addon
+  command: minishift addon enable admin-user
+  register: ps
+
+- debug: var=ps.stdout_lines
