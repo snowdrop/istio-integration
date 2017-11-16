@@ -105,7 +105,6 @@ oc delete serviceaccounts "istio-ca-service-account"
 oc delete deployments.extensions "istio-ca"
 
 # Deployment
-curl -L https://git.io/getLatestIstio | sh -
 ISTIO_DIR=$(find . -name \*istio\* -type d -maxdepth 1 -print -quit)
 oc create -f $ISTIO_DIR/install/kubernetes/istio.yaml
 
