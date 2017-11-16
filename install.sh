@@ -114,14 +114,19 @@ echo "Deploy additional services"
 oc create -f $ISTIO_DIR/install/kubernetes/addons/prometheus.yaml
 oc create -f $ISTIO_DIR/install/kubernetes/addons/grafana.yaml
 oc create -f $ISTIO_DIR/install/kubernetes/addons/servicegraph.yaml
-oc create -f $ISTIO_DIR/install/kubernetes/addons/zipkin.yaml
 oc expose svc servicegraph
 oc expose svc grafana
-oc expose svc zipkin
-
 SERVICEGRAPH=$(oc get route servicegraph -o jsonpath='{.spec.host}{"\n"}')
 GRAFANA=$(oc get route grafana -o jsonpath='{.spec.host}{"\n"}')
-ZIPKIN=$(oc get route zipkin -o jsonpath='{.spec.host}{"\n"}')
+
+#oc create -f $ISTIO_DIR/install/kubernetes/addons/zipkin.yaml
+#oc expose svc zipkin
+#ZIPKIN=$(oc get route zipkin -o jsonpath='{.spec.host}{"\n"}')
+
+echo "Jaeger installation (instead of Zipkin)"
+oc apply -n istio-system -f https://raw.githubusercontent.com/jaegertracing/jaeger-kubernetes/master/all-in-one/jaeger-all-in-one-template.yml
+oc expose svc jaeger
+JAEGER=$(oc get route jaeger -o jsonpath='{.spec.host}{"\n"}')
 
 echo "Install Book info example"
 oc apply -f <($ISTIO_DIR/bin/istioctl kube-inject -f $ISTIO_DIR/samples/bookinfo/kube/bookinfo.yaml)

@@ -1,0 +1,17 @@
+---
+- name: Install minishift
+  hosts: localhost
+  connection: local
+  gather_facts: yes
+  roles:
+    - role: chouseknecht.minishift-up-role
+      minishift_repo: minishift/minishift 
+      minishift_github_url: https://api.github.com/repos
+      minishift_release_tag_name: ""
+      minishift_dest: /usr/local/bin
+      minishift_force_install: yes
+      minishift_restart: no
+      minishift_delete: yes
+      minishift_start_options: []
+      openshift_client_dest: /usr/local/bin
+      openshift_force_client_copy: yes

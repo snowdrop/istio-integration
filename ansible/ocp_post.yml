@@ -1,0 +1,4 @@
+- name: Log on using admin user
+  shell: oc login -u admin -p admin
+- name: Create namespace
+  shell: oc new-project istio-system
