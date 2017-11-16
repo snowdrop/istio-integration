@@ -1,4 +1,6 @@
-# istio-integration
+# Istio Deployment on OpenShift
+
+The following [blog article](https://blog.openshift.com/evaluate-istio-openshift/) details how to install OpenShift. The scenario defined hereafter should be revisited
 
 ## Install istio bin locally
 ```bash
