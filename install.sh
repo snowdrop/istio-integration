@@ -3,7 +3,7 @@
 # Command to be executed to install istio is
 # ./install.sh
 # To delete istio-system namespace and resources, then pass this parameter
-# ./install,sh clean
+# ./install.sh clean
 
 clean() {
 oc delete clusterroles "istio-pilot-istio-system"
