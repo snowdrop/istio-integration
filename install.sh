@@ -83,6 +83,10 @@ if [ "$1" = "clean" ] ; then
   #oc delete project istio-system --force=true
   #while oc get project istio-system -o jsonpath='{.metadata.name}' | grep -F "istio-system"; do sleep 10s && echo "wait till project is deleted"; done;
   #clean
+  oc delete -f $ISTIO_DIR/install/kubernetes/addons/prometheus.yaml
+  oc delete -f $ISTIO_DIR/install/kubernetes/addons/grafana.yaml
+  oc delete -f $ISTIO_DIR/install/kubernetes/addons/servicegraph.yaml
+  oc delete -f $ISTIO_DIR/install/kubernetes/addons/zipkin.yaml
   oc delete -f $ISTIO_DIR/install/kubernetes/istio.yaml
   exit
 fi
