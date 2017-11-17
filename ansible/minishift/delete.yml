@@ -12,7 +12,7 @@
   when: '"Running" in ps_state.stdout'
   ignore_errors: yes
 
-# ISSUE : The minishift vm is not deleted and this message is reported :
+# ISSUE : The minishift vm is not deleted if you don't specify the user home env
 # https://github.com/minishift/minishift/issues/1717
 - name: Deleting minishift
   shell: MINISHIFT_HOME={{ ansible_env.HOME }}/.minishift minishift delete --force

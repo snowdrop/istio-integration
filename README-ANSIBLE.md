@@ -28,7 +28,7 @@ The parameters to be used to customize the scenarion (delete, force install, res
 ansible-playbook ansible/minishift/install.yml
 ```
 
-## Install Istio and the Bookinginfo project
+## Install Istio and the Bookinfo project
 
 Now, you can execute the next following playbooks in order to :
 
