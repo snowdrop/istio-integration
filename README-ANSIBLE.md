@@ -30,7 +30,26 @@ ansible-playbook ansible/minishift/install.yml
 
 ## Install Istio and the sample project
 
-- Now, you can run the following playbook to configure minishift vm and install istio
+Now, you can execute the next following playbooks in order to :
+
+- Configure Minishift for the demo and start it
 ```bash
-ansible-playbook ansible/main.yml
+ansible-playbook ansible/main.yml --extra-vars="action=create-vm"
+```
+
+- Deploy Istio distribution on your laptop. By default, that will be the latest istio release
+```bash
+ansible-playbook ansible/main.yml --extra-vars="action=install-distro, istio.dest=# /Users/dabou/Code/snowdrop/istio-integration"
+```
+
+Remark: You can change the location of the folder where you want to install istio using the `istio.dest` variable defined within the file `ansible/etc/config.yaml`
+
+- Install Istio on Openshift as the bookinginfo app
+```bash
+ansible-playbook ansible/main.yml --extra-vars="action=install-istio"
+```
+
+- Open the different applications into your browser
+```bash
+ansible-playbook ansible/main.yml --extra-vars="action=launch"
 ```

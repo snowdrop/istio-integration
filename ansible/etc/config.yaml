@@ -25,7 +25,8 @@ istio:
   # could be a tag "0.2.12" or be empty "", then in this case, the latest release will be downloaded
   release_tag_name: ""
 
-  dest: /Users/dabou/Code/snowdrop/istio-integration
+  # Folder where you want to install the distro on your machine
+  dest: ""
 
   # Install istio with or without istio-auth module
   auth: false
