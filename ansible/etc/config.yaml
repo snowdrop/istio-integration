@@ -22,8 +22,8 @@ istio:
   github_url: https://api.github.com/repos
   repo: istio/istio
 
-  # could be a tag name or "", then in this case the latest distro will be used
-  release_tag_name: "0.2.12"
+  # could be a tag "0.2.12" or be empty "", then in this case, the latest release will be downloaded
+  release_tag_name: ""
 
   dest: /Users/dabou/Code/snowdrop/istio-integration
 

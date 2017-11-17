@@ -8,3 +8,6 @@
 - name: Install Istio distribution
   include_tasks: install.yml
   when: not p.stat.exists
+
+- name: Add istio bin dir to PATH
+  import_tasks: add_to_path.yml

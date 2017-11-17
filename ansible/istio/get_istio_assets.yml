@@ -34,12 +34,23 @@
   assert:
     that: assets_url is defined
 
-- name: debug
-  debug:
-    var: assets_url
+# - name: debug
+#   debug:
+#     var: assets_url
 
 - name: Get the list of assets
   uri:
     url: "{{ assets_url }}"
   register: assets
 
+# - debug: var=assets
+
+- name: Get the Mac asset
+  include_tasks: "istio/get_istio_darwin_asset.yml"
+  with_items: "{{ assets.json }}"
+  when: assets is defined and ansible_os_family == 'Darwin'
+
+- name: Get the Linux asset
+  include_tasks: "istio/get_istio_linux_asset.yml"
+  with_items: "{{ assets.json }}"
+  when: assets is defined and ansible_os_family != 'Darwin' and ansible_os_family != 'Windows'
