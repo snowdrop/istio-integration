@@ -81,3 +81,8 @@
    args:
      chdir: "{{ temp_output.stdout }}"
    when: asset_name | search('tar.gz')
+
+- name: Remove the temp directory
+  file:
+    path: "{{ temp_output.stdout }}"
+    state: absent
