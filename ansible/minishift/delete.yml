@@ -5,11 +5,11 @@
 
 - debug:
     msg: "Shutting down minishift..."
-  when: ps_state.stdout == 'Running'
+  when: '"Running" not in ps_state.stdout'
 
 - name: Shutdown minishift
   command: minishift stop
-  when: ps_state.stdout == 'Running'
+  when: '"Running" not in ps_state.stdout'
 
 # - name: Stop playbook, if running and not restart
 #   assert:
@@ -18,8 +18,7 @@
 
 - name: Deleting minishift
   command: minishift delete --force
-  when: minishift_delete
-  ignore_errors: yes
+  ignore_errors: true
   become: yes
 
 # - name: Remove ~/.minishift

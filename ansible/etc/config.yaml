@@ -1,5 +1,5 @@
 # Not specific action is defined by default such as delete|create-vm
-action: default
+action: ""
 
 #
 # Minishift parameters used by the role
@@ -26,7 +26,7 @@ istio:
   release_tag_name: ""
 
   # Folder where you want to install the distro on your machine
-  dest: ""
+  dest: "/Users/dabou/Code/snowdrop/istio-integration"
 
   # Install istio with or without istio-auth module
   auth: false

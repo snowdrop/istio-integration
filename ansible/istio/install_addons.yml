@@ -8,4 +8,4 @@
   shell: |
     oc apply -n {{ istio.namespace }} -f https://raw.githubusercontent.com/jaegertracing/jaeger-kubernetes/master/all-in-one/jaeger-all-in-one-template.yml
     oc expose svc jaeger
-  when: jaeger
+  when: istio.jaeger

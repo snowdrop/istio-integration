@@ -3,11 +3,12 @@
   register: ps_state
   ignore_errors: yes
 
-- debug:
+- name: Minishift status
+  debug:
     msg: "Minishift is already started ..."
-  when: ps_state.stdout == 'Running'
+  when: '"Running" in ps_state.stdout'
 
 - name: Start minishift
   shell: "minishift start >/tmp/minishift.out 2>&1"
-  when: ps_state.stdout != 'Running'
   ignore_errors: yes
+  when: '"Running" not in ps_state.stdout'

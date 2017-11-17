@@ -14,4 +14,4 @@
   shell: |
    JAEGER=$(oc get route jaeger -o jsonpath='{.spec.host}{"\n"}')
    open http://$ZIPKIN/zipkin/
-  when: jaeger
+  when: istio.jaeger

@@ -1,4 +1,4 @@
-- name: Create namespace
+- name: Define SCC rules
   shell: |
     oc adm policy add-scc-to-user anyuid -z istio-ingress-service-account
     oc adm policy add-scc-to-user anyuid -z istio-egress-service-account
