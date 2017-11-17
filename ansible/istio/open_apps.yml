@@ -1,0 +1,17 @@
+- name: Get Route and open web screens
+  shell: |
+    SERVICEGRAPH=$(oc get route servicegraph -o jsonpath='{.spec.host}{"\n"}')
+    GRAFANA=$(oc get route grafana -o jsonpath='{.spec.host}{"\n"}')
+    PRODUCTPAGE=$(oc get route productpage -o jsonpath='{.spec.host}{"\n"}')
+    ZIPKIN=$(oc get route zipkin -o jsonpath='{.spec.host}{"\n"}')
+
+    open http://$SERVICEGRAPH/dotviz
+    open http://$GRAFANA/dashboard/db/istio-dashboard
+    open http://$ZIPKIN/zipkin/
+    open http://$PRODUCTPAGE/productpage
+
+- name: Get Jaeger Route
+  shell: |
+   JAEGER=$(oc get route jaeger -o jsonpath='{.spec.host}{"\n"}')
+   open http://$ZIPKIN/zipkin/
+  when: jaeger

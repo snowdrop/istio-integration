@@ -8,11 +8,10 @@
     - import_tasks: minishift/delete.yml
       when: action == 'delete-vm'
 
-    - name: Create Minishift VM, namespace for istio and change security rules
+    - name: Create Minishift instance, namespace for istio and change security rules
       block:
       - import_tasks: minishift/config.yml
-      - import_tasks: istio/create_namespace.yml
-      - import_tasks: istio/change_scc.yml
+      - import_tasks: minishift/start.yml
       when: action == 'create-vm'
 
     # Default process if a Minishift VM has already been provisioned
@@ -22,6 +21,19 @@
     # Install Istio Distro if it doesn't exist
     - import_tasks: istio/install_distro.yml
       when: action == 'install-distro'
+
+    # Install Istio on Minishift
+    - name: Install Istio on Minishift OCP
+      block:
+      - import_tasks: istio/create_namespace.yml
+      - import_tasks: istio/change_scc.yml
+      - import_tasks: istio/set_istio_distro_dir.yml
+      - import_tasks: istio/install_on_ocp.yml
+      when: action == 'install-istio'
+
+    # Open Web Screens of the Applications
+    - import_tasks: istio/open_apps.yml
+      when: action == 'launch'
 
 
 

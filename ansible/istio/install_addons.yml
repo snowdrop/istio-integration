@@ -1,0 +1,11 @@
+- name: Install Addons
+  shell: |
+    oc create -f {{ istio_dir }}/install/kubernetes/addons/{{ item }}.yaml
+    oc expose svc {{ item }}
+  with_items: "{{ istio.addon }}"
+
+- name: Install Jaeger
+  shell: |
+    oc apply -n {{ istio.namespace }} -f https://raw.githubusercontent.com/jaegertracing/jaeger-kubernetes/master/all-in-one/jaeger-all-in-one-template.yml
+    oc expose svc jaeger
+  when: jaeger

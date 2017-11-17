@@ -9,5 +9,8 @@
   include_tasks: install.yml
   when: not p.stat.exists
 
+- name: Set istio dir
+  import_tasks: set_istio_distro_dir.yml
+
 - name: Add istio bin dir to PATH
   import_tasks: add_to_path.yml

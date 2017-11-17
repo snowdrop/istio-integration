@@ -1,5 +1,5 @@
 # Not specific action is defined by default such as delete|create-vm
-# action:
+action: default
 
 #
 # Minishift parameters used by the role
@@ -29,3 +29,16 @@ istio:
 
   # Install istio with or without istio-auth module
   auth: false
+
+  # OpenShift project / Kubernetes namespace to be created
+  namespace: istio-system
+
+  addon:
+    - "grafana"
+    - "prometheus"
+    - "servicegraph"
+    - "zipkin"
+
+  jaeger: false
+
+

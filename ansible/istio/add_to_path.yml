@@ -1,13 +1,3 @@
-- name: Get Istio dir
-  shell: |
-    ISTIO_DIR=$(find {{ istio.dest }}/. -name \*istio\* -type d -maxdepth 1 -print -quit)
-    echo $ISTIO_DIR
-  register: p
-
-- name: Define var containing Istio dir
-  set_fact:
-    istio_dir: "{{ p.stdout }}"
-
 - name: Add Istio to PATH
   shell: |
     ISTIO_BIN_DIR=$(cd {{ istio_dir }}/bin; pwd)
