@@ -5,11 +5,11 @@
 
 - debug:
     msg: "Shutting down minishift..."
-  when: '"Running" not in ps_state.stdout'
+  when: '"Running" in ps_state.stdout'
 
 - name: Shutdown minishift
   command: minishift stop
-  when: '"Running" not in ps_state.stdout'
+  when: '"Running" in ps_state.stdout'
 
 # - name: Stop playbook, if running and not restart
 #   assert:
