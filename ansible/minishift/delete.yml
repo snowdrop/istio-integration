@@ -10,20 +10,11 @@
 - name: Shutdown minishift
   command: minishift stop
   when: '"Running" in ps_state.stdout'
+  ignore_errors: yes
 
-# - name: Stop playbook, if running and not restart
-#   assert:
-#     that: true == false
-#   when: ps_state.stdout == 'Running' and not minishift_restart
-
+# ISSUE : The minishift vm is not deleted and this message is reported :
+# https://github.com/minishift/minishift/issues/1717
 - name: Deleting minishift
-  command: minishift delete --force
-  ignore_errors: true
+  shell: MINISHIFT_HOME={{ ansible_env.HOME }}/.minishift minishift delete --force
   become: yes
-
-# - name: Remove ~/.minishift
-#   file:
-#     path: ~/.minishift
-#     state: absent
-#   when: minishift_delete
-#   become: yes
+  ignore_errors: true
