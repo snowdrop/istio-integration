@@ -1,0 +1,7 @@
+# Not action is defined by default
+action:
+
+istio:
+  version: 0.2.12
+  # Install istio with or without istio-auth module
+  auth: false

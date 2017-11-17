@@ -1,11 +1,22 @@
 ---
 - hosts: localhost
   gather_facts: true
+  vars_files:
+    - etc/config.yaml
 
   tasks:
-    # - import_tasks: minishift/stop_delete.yml
-    # - import_tasks: minishift/config.yml
-    # - import_tasks: minishift/start.yml
-    # - import_tasks: ocp/log_admin.yml
-    # - import_tasks: istio/create_namespace.yml
-    - import_tasks: istio/change_scc.yml
+    - import_tasks: minishift/delete.yml
+      when: action == 'delete'
+
+    - name: Create Minishift VM, namespace for istio and change security rules
+      block:
+      - import_tasks: minishift/config.yml
+      - import_tasks: istio/create_namespace.yml
+      - import_tasks: istio/change_scc.yml
+      when: action == 'create'
+
+    - import_tasks: minishift/start.yml
+    - import_tasks: ocp/log_admin.yml
+
+
+

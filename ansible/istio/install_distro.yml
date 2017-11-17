@@ -1,0 +1,7 @@
+installIstioDistr() {
+ echo "Install istio distribution dir"
+ curl -L https://git.io/getLatestIstio | ISTIO_VERSION=$ISTIO_VERSION sh -
+}
+
+
+ISTIO_DIR=$(find . -name \*istio\* -type d -maxdepth 1 -print -quit)

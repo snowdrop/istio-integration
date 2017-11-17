@@ -1,0 +1,30 @@
+- name: Check if minishift is running
+  command: minishift status
+  register: ps_state
+  ignore_errors: yes
+
+- debug:
+    msg: "Shutting down minishift..."
+  when: ps_state.stdout == 'Running'
+
+- name: Shutdown minishift
+  command: minishift stop
+  when: ps_state.stdout == 'Running'
+
+# - name: Stop playbook, if running and not restart
+#   assert:
+#     that: true == false
+#   when: ps_state.stdout == 'Running' and not minishift_restart
+
+- name: Deleting minishift
+  command: minishift delete --force
+  when: minishift_delete
+  ignore_errors: yes
+  become: yes
+
+# - name: Remove ~/.minishift
+#   file:
+#     path: ~/.minishift
+#     state: absent
+#   when: minishift_delete
+#   become: yes

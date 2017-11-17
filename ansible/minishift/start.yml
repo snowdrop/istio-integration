@@ -1,5 +1,13 @@
-- name: Start minishift
-  command: minishift start
-  register: ps
+- name: Check if minishift is running
+  command: minishift status
+  register: ps_state
+  ignore_errors: yes
 
-- debug: var=ps.stdout_lines
+- debug:
+    msg: "Minishift is already started ..."
+  when: ps_state.stdout == 'Running'
+
+- name: Start minishift
+  shell: "minishift start >/tmp/minishift.out 2>&1"
+  when: ps_state.stdout != 'Running'
+  ignore_errors: yes
