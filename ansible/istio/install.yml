@@ -1,0 +1,83 @@
+ - name: Set MacOS Extension
+   set_fact:
+     os_ext: "osx.tar.gz"
+   when: ansible_os_family == 'Darwin'
+
+ - name: Set Linux Extension
+   set_fact:
+     os_ext: "linux.tar.gz"
+   when: ansible_os_family != 'Darwin' and ansible_os_family != 'Windows'
+
+ - name: Get the tagged release
+   uri:
+     url: "{{ istio.github_url }}/{{ istio.repo }}/releases/tags/{{ istio.release_tag_name }}"
+   register: release
+   when: istio.release_tag_name != ''
+
+ - name: Set release
+   set_fact:
+     assets_url: "{{ release.json.assets_url }}"
+   when: istio.release_tag_name != ''
+
+ - name: Get the latest release
+   uri:
+     url: "{{ istio.github_url }}/{{ istio.repo }}/releases/latest"
+   register: release
+   when: istio.release_tag_name == ''
+
+ - name: Set release
+   set_fact:
+     assets_url: "{{ release.json.assets_url }}"
+   when: istio.release_tag_name == ''
+
+ - name: Should have an assets_url
+   assert:
+     that: assets_url is defined
+
+# - name: debug
+#   debug:
+#     var: assets_url
+
+ - name: Get the list of assets
+   uri:
+     url: "{{ assets_url }}"
+   register: assets
+
+# - debug: var=assets
+
+ - name: Get the Mac asset
+   include_tasks: "istio/get_istio_darwin_asset.yml"
+   with_items: "{{ assets.json }}"
+   when: assets is defined and ansible_os_family == 'Darwin'
+
+ - name: Get the Linux asset
+   include_tasks: "istio/get_istio_linux_asset.yml"
+   with_items: "{{ assets.json }}"
+   when: assets is defined and ansible_os_family != 'Darwin' and ansible_os_family != 'Windows'
+
+ - debug:
+     var: asset_url, asset_name
+
+ - name: Create a temp dir
+   command: mktemp -d -t ansible.XXXXXXXXXX
+   register: temp_output
+
+ - debug:
+     var: temp_output
+
+ - name: Download the asset
+   get_url:
+     url: "{{ asset_url }}"
+     dest: "{{ temp_output.stdout }}/{{ asset_name }}"
+
+ - name: Unzip the archive
+   command: "unzip {{ asset_name }} -d {{ istio.dest }}"
+   args:
+     chdir: "{{ temp_output.stdout }}"
+   when: asset_name | search('zip')
+
+ - name: Untar the archive
+   command: "tar -xvzf {{ asset_name }} -C {{ istio.dest }}"
+   args:
+     chdir: "{{ temp_output.stdout }}"
+   when: asset_name | search('tar.gz')

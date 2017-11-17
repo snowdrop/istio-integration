@@ -1,0 +1,45 @@
+- name: Set MacOS Extension
+  set_fact:
+    os_ext: "osx.tar.gz"
+  when: ansible_os_family == 'Darwin'
+
+- name: Set Linux Extension
+  set_fact:
+    os_ext: "linux.tar.gz"
+  when: ansible_os_family != 'Darwin' and ansible_os_family != 'Windows'
+
+- name: Get the tagged release
+  uri:
+    url: "{{ istio.github_url }}/{{ istio.repo }}/releases/tags/{{ istio.release_tag_name }}"
+  register: release
+  when: istio.release_tag_name != ''
+
+- name: Set release
+  set_fact:
+    assets_url: "{{ release.json.assets_url }}"
+  when: istio.release_tag_name != ''
+
+- name: Get the latest release
+  uri:
+    url: "{{ istio.github_url }}/{{ istio.repo }}/releases/latest"
+  register: release
+  when: istio.release_tag_name == ''
+
+- name: Set release
+  set_fact:
+    assets_url: "{{ release.json.assets_url }}"
+  when: istio.release_tag_name == ''
+
+- name: Should have an assets_url
+  assert:
+    that: assets_url is defined
+
+- name: debug
+  debug:
+    var: assets_url
+
+- name: Get the list of assets
+  uri:
+    url: "{{ assets_url }}"
+  register: assets
+

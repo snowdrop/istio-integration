@@ -1,7 +1,10 @@
-installIstioDistr() {
- echo "Install istio distribution dir"
- curl -L https://git.io/getLatestIstio | ISTIO_VERSION=$ISTIO_VERSION sh -
-}
+- name: Check if Istio distro folder exists
+  stat:
+    path: "{{ istio.dest }}/istio-{{ istio.release_tag_name }}"
+  register: p
 
+- debug: var=p.stat.path
 
-ISTIO_DIR=$(find . -name \*istio\* -type d -maxdepth 1 -print -quit)
+- name: Install Istio distribution
+  include_tasks: install.yml
+  when: not p.stat.exists
