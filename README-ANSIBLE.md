@@ -71,6 +71,11 @@ ansible-playbook ansible/main.yml --extra-vars="action=create-vm" --ask-become-p
 Remarks:
 
 - The variables to configure the VM are defined under the file `ansible/minishift/vars/vm_config.yaml`.
+  By default, they are defined as such :
+  - memory: 3GB
+  - cpus: 2
+  - vm-driver: xhyve
+  - openshift-version: v3.7.0-rc.0
 - The Ansible parameter `--ask-become-pass` is required in order to prompt you to give your root/sudo password
   as xhyve requires root access on your machine ! 
 
