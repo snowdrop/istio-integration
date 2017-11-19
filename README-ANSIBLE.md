@@ -28,8 +28,22 @@ ansible-galaxy install chouseknecht.minishift-up-role
 ## Install Minishift (optional)
 
 When the Ansible Minishift role is installed, then you can play with it to install or reinstall Minishift.
-The parameters to be used to customize the scenario (delete, force install, restart) can be changed within the `etc/config.yaml` file. See `minishift` key 
-The following playbook will allow you to install Minishift. 
+The parameters used to customize the scenario can be changed within the `etc/config.yaml` file. See `minishift` key.
+
+Here are the parameters defined for our config :
+
+- minishift_repo: minishift/minishift # Repo where the minishift binary can be found
+- minishift_github_url: https://api.github.com/repos
+- minishift_release_tag_name: "" # Defaults to installing the latest release. Use to install a specific minishift release.
+- minishift_dest: /usr/local/bin
+- minishift_force_install: yes # Overwrite any existing minishift binary found at minishift_dest
+- minishift_restart: no # Stop and recreate the existing minishift instance.
+- minishift_delete: yes # Perform `minishift delete`, and remove `~/.minishift`. If you're upgrading, you most likely want to do this.
+- minishift_start_options: []
+- openshift_client_dest: /usr/local/bin
+- openshift_force_client_copy: yes # Overwrite any existing OpenShift client binary found at {{ openshift_client_dest }}.
+
+and the playbook to install Minishift. 
 
 ```bash
 ansible-playbook ansible/minishift/install.yml
