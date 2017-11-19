@@ -12,9 +12,11 @@ The Ansible scenario defined within this project will let you to :
 - [Ansible 2.4](ttp://docs.ansible.com/ansible/latest/intro_installation.html)
 - [Minishift Role](https://docs.ansible.com/ansible-container/openshift/minishift.html)
 
-Ansible can be installed on your machine as defined within the installation doc while the minishift role 
-can be deployed using `ansible-galaxy` as defined hereafter. This minishift role is only required
-if you prefer to install minishift using amsible.
+Refer to the Ansible Installation Doc how to install Ansible on your machine.
+To use the minishift role to install minishift, then use the
+Ansible Galaxy command to install the role from the repository. 
+
+Remark : This minishift role is only required if you prefer to install minishift using ansible.
 
 ```bash
 cd ~
