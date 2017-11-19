@@ -25,12 +25,23 @@ ansible-galaxy install chouseknecht.minishift-up-role
 
 ## Install Minishift (optional)
 
-When the Ansible role is installed, then you can play with it to install, reinstall, restart an existing Minishift project
+When the Ansible Minishift role is installed, then you can play with it to install, reinstall, restart an existing Minishift project
 The parameters to be used to customize the scenario (delete, force install, restart) can be changed within the `etc/config.yaml` file. See `minishift` key 
+The following playbook will allow you to install Minishift. 
 
 ```bash
 ansible-playbook ansible/minishift/install.yml
 ```
+
+During the installation, the following tasks will be performed:
+
+- Downloads and installs the latest minishift binary
+- Copies the latest oc binary from ~/.minishift/cache/oc to a directory in your PATH
+- Installs the Docker Machine driver
+- Creates a minishift instance
+- Grants cluster admin to the developer account
+- Creates a route to the internal registry
+- Adds a hostname to /etc/hosts for accessing the internal registry
 
 ## Install Istio and the Bookinfo project
 
