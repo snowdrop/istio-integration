@@ -63,7 +63,7 @@ During the installation, the following tasks will be performed:
 
 Now, you can execute the following playbooks in order to :
 
-- Configure a Minishift vm for the demo and start it.
+1. Configure a Minishift vm for the demo and start it.
 ```bash
 ansible-playbook ansible/main.yml --extra-vars="action=create-vm" --ask-become-pass
 ```
@@ -79,19 +79,19 @@ Remarks:
 - The Ansible parameter `--ask-become-pass` is required in order to prompt you to give your root/sudo password
   as xhyve requires root access on your machine ! 
 
-- Deploy Istio distribution on your laptop. By default, that will be the latest istio release
+2. Deploy the Istio distribution on your laptop. By default, the latest istio [release](https://github.com/istio/istio/releases/) will be installed
 ```bash
 ansible-playbook ansible/main.yml --extra-vars="action=install-distro"
 ```
+You can change the version to be installed using the variable `istio.release_tag_name` defined under the file `ansible/etc/config.yaml`
+! Remark: You must define the location of the folder where you will install istio distro using the `istio.dest` variable.
 
-!! Remark: You must define the location of the folder where you will install istio distro using the `istio.dest` variable defined within the file `ansible/etc/config.yaml`
-
-- Install Istio on Openshift as the bookinginfo app
+3. Install Istio on Openshift as the bookinginfo app
 ```bash
 ansible-playbook ansible/main.yml --extra-vars="action=install-istio"
 ```
 
-- Open the different applications into your browser
+4. Open the different applications into your browser
 ```bash
 ansible-playbook ansible/main.yml --extra-vars="action=launch"
 ```
