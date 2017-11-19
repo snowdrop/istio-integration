@@ -36,7 +36,9 @@ ansible-playbook ansible/minishift/install.yml
 
 Now, you can execute the next following playbooks in order to :
 
-- Configure a Minishift vm for the demo and start it. The parameters to configure the VM are defined under the file `ansible/minishift/vars/vm_config.yaml`
+- Configure a Minishift vm for the demo and start it. The parameters to configure the VM are defined under the file `ansible/minishift/vars/vm_config.yaml`.
+  The Ansible parameter `--ask-become-pass` is required in order to prompt you to give your root/sudo password
+  as xhyve requires root access on your machine ! 
 ```bash
 ansible-playbook ansible/main.yml --extra-vars="action=create-vm" --ask-become-pass
 ```
