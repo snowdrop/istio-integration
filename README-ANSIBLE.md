@@ -61,14 +61,18 @@ During the installation, the following tasks will be performed:
 
 ## Install Istio and the Bookinfo project
 
-Now, you can execute the next following playbooks in order to :
+Now, you can execute the following playbooks in order to :
 
-- Configure a Minishift vm for the demo and start it. The parameters to configure the VM are defined under the file `ansible/minishift/vars/vm_config.yaml`.
-  The Ansible parameter `--ask-become-pass` is required in order to prompt you to give your root/sudo password
-  as xhyve requires root access on your machine ! 
+- Configure a Minishift vm for the demo and start it.
 ```bash
 ansible-playbook ansible/main.yml --extra-vars="action=create-vm" --ask-become-pass
 ```
+
+Remarks:
+
+- The variables to configure the VM are defined under the file `ansible/minishift/vars/vm_config.yaml`.
+- The Ansible parameter `--ask-become-pass` is required in order to prompt you to give your root/sudo password
+  as xhyve requires root access on your machine ! 
 
 - Deploy Istio distribution on your laptop. By default, that will be the latest istio release
 ```bash
