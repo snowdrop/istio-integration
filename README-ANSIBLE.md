@@ -27,7 +27,7 @@ ansible-galaxy install chouseknecht.minishift-up-role
 
 ## Install Minishift (optional)
 
-When the Ansible Minishift role is installed, then you can play with it to install, reinstall, restart an existing Minishift project
+When the Ansible Minishift role is installed, then you can play with it to install or reinstall an existing Minishift project.
 The parameters to be used to customize the scenario (delete, force install, restart) can be changed within the `etc/config.yaml` file. See `minishift` key 
 The following playbook will allow you to install Minishift. 
 
