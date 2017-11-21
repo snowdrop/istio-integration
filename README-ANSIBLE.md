@@ -63,16 +63,18 @@ During the installation, the following tasks will be performed:
 
 Now, you can execute the following playbooks in order to :
 
-1. Configure a Minishift vm for the demo and start it.
+1. Create a Minishift vm using the profile `istio-demo` and start minishift.
 ```bash
 ansible-playbook ansible/main.yml --extra-vars="action=create-vm" --ask-become-pass
 ```
 
 Remarks:
 
-- The variables to configure the VM are defined under the file `ansible/minishift/vars/vm_config.yaml`.
+- If a minishift instance already exists, then it will be stopped and the profile `istio-demo` of the vm deleted
+- The variables to configure the VM are defined under the file `ansible/etc/config.yaml`. See `profile/config`
   By default, they are defined as such :
   - memory: 3GB
+  - image-caching: true
   - cpus: 2
   - vm-driver: xhyve
   - openshift-version: v3.7.0-rc.0
