@@ -23,6 +23,8 @@ profile:
   config:
     - key: memory
       value: 3GB
+    - key: image-caching
+      value: true
     - key: cpus
       value: 2
     - key: vm-driver

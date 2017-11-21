@@ -1,14 +1,7 @@
 - name: Configure minishift vm, cpu, memory
   shell: |
-    minishift config set {{ item.key }} {{ item.value }}
+    minishift --profile {{ profile.name }} config set {{ item.key }} {{ item.value }}
   with_items: "{{ profile.config }}"
 
 - name: Add minishift addon
   command: minishift addon enable admin-user
-
-#  minishift profile set profile-demo
-# or
-# minishift --profile profile-demo config set memory 8GB
-# minishift --profile profile-demo config set cpus 4
-# minishift --profile profile-demo addon enable anyuid
-# minishift --profile profile-demo minishift start

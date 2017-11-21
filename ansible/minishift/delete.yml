@@ -1,5 +1,5 @@
 - name: Check if minishift is running
-  command: minishift status
+  command: minishift status --profile {{ profile.name }}
   register: ps_state
   ignore_errors: yes
 
@@ -8,7 +8,7 @@
   when: '"Running" in ps_state.stdout'
 
 - name: Shutdown minishift
-  command: minishift stop
+  command: minishift stop --profile {{ profile.name }}
   when: '"Running" in ps_state.stdout'
   ignore_errors: yes
 
@@ -17,6 +17,6 @@
 #
 # Delete the profile using minishift delete --profile MY_PROFILE --force
 - name: Deleting minishift
-  shell: MINISHIFT_HOME={{ ansible_env.HOME }}/.minishift minishift delete --force
+  shell: MINISHIFT_HOME={{ ansible_env.HOME }}/.minishift minishift delete --profile {{ profile.name }} --force
   become: yes
   ignore_errors: true
