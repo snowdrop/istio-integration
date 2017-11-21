@@ -14,6 +14,8 @@
 
 # ISSUE : The minishift vm is not deleted if you don't specify the user home env
 # https://github.com/minishift/minishift/issues/1717
+#
+# Delete the profile using minishift delete --profile MY_PROFILE --force
 - name: Deleting minishift
   shell: MINISHIFT_HOME={{ ansible_env.HOME }}/.minishift minishift delete --force
   become: yes
