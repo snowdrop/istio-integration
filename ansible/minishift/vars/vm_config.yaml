@@ -1,9 +1,0 @@
-parameters:
-  - key: memory
-    value: 3GB
-  - key: cpus
-    value: 2
-  - key: vm-driver
-    value: xhyve
-  - key: openshift-version
-    value: v3.7.0-rc.0

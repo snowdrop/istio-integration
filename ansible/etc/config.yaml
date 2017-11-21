@@ -16,6 +16,21 @@ openshift_client_dest: /usr/local/bin
 openshift_force_client_copy: yes # Overwrite any existing OpenShift client binary found at {{ openshift_client_dest }}.
 
 #
+# Minishift Istio Profile
+#
+profile:
+  name: istio-demo
+  config:
+    - key: memory
+      value: 3GB
+    - key: cpus
+      value: 2
+    - key: vm-driver
+      value: xhyve
+    - key: openshift-version
+      value: v3.7.0-rc.0
+
+#
 # Istio
 #
 istio:
