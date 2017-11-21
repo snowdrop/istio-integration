@@ -9,6 +9,8 @@
   when: '"Running" in ps_state.stdout'
 
 - name: Start minishift
-  shell: "minishift start --profile {{ profile.name }} >/tmp/minishift.out 2>&1"
+  shell: |
+    minishift profile set {{ profile.name }}
+    minishift start --profile {{ profile.name }} >/tmp/minishift.out 2>&1
   ignore_errors: yes
   when: '"Running" not in ps_state.stdout'
