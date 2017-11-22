@@ -70,7 +70,7 @@ ansible-playbook ansible/main.yml -t delete-vm --ask-become-pass
 
 Remarks:
 
-- If a minishift instance already exists, then it will be stopped and the profile `istio-demo` of the vm deleted
+- If a minishift instance already exists, then it will be stopped and the vm deleted. The profile will not be deleted !
 - The variables to configure the VM are defined under the file `ansible/etc/config.yaml`. See `profile/config`
   By default, they are defined as such :
   - memory: 3GB
