@@ -1,6 +1,3 @@
-# Not specific action is defined by default such as delete|create-vm
-action: ""
-
 #
 # Minishift parameters used by the role
 #

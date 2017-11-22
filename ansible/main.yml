@@ -13,7 +13,7 @@
       run_once: yes
 
     - import_tasks: minishift/delete.yml
-      when: action == 'delete-vm'
+      tags: [ delete-vm ]
 
     # Create Minishift instance using config defined within etc/config.yaml file and start minishift
     - block:
@@ -21,17 +21,17 @@
       - import_tasks: minishift/config.yml
       - import_tasks: minishift/start.yml
       - import_tasks: ocp/log_admin.yml
-      when: action == 'create-vm'
+      tags: [ create-vm ]
 
     # Start Minishift
     - block:
       - import_tasks: minishift/start.yml
       - import_tasks: ocp/log_admin.yml
-      when: action == 'default'
+      tags: [ default ]
 
     # Install Istio Distro if it doesn't exist
     - import_tasks: istio/install_distro.yml
-      when: action == 'install-distro'
+      tags: [ install-distro ]
 
     # Install Istio on Minishift
     - name: Install Istio on Minishift OCP
@@ -40,11 +40,11 @@
       - import_tasks: istio/create_namespace.yml
       - import_tasks: istio/change_scc.yml
       - import_tasks: istio/install_on_ocp.yml
-      when: action == 'install-istio'
+      tags: [ install-istio ]
 
     # Open Web Screens of the Applications
     - import_tasks: istio/open_apps.yml
-      when: action == 'launch'
+      tags: [ launch ]
 
 
 

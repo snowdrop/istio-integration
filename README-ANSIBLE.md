@@ -65,7 +65,7 @@ Now, you can execute the following playbooks in order to :
 
 1. Create a Minishift vm using the profile `istio-demo` and start it.
 ```bash
-ansible-playbook ansible/main.yml --extra-vars="action=create-vm" --ask-become-pass
+ansible-playbook ansible/main.yml -t delete-vm --ask-become-pass
 ```
 
 Remarks:
@@ -83,17 +83,17 @@ Remarks:
 
 2. Deploy the Istio distribution on your laptop. By default, the latest istio [release](https://github.com/istio/istio/releases/) will be installed
 ```bash
-ansible-playbook ansible/main.yml --extra-vars="action=install-distro"
+ansible-playbook ansible/main.yml -t install-distro
 ```
 You can change the version to be installed using the variable `istio.release_tag_name` defined under the file `ansible/etc/config.yaml`
 ! Remark: You must define the location of the folder where you will install istio distro using the `istio.dest` variable.
 
 3. Install Istio on Openshift as the bookinginfo app
 ```bash
-ansible-playbook ansible/main.yml --extra-vars="action=install-istio"
+ansible-playbook ansible/main.yml -t install-istio
 ```
 
 4. Open the different applications into your browser
 ```bash
-ansible-playbook ansible/main.yml --extra-vars="action=launch"
+ansible-playbook ansible/main.yml -t launch
 ```
