@@ -88,9 +88,14 @@ ansible-playbook ansible/main.yml -t install-distro
 You can change the version to be installed using the variable `istio.release_tag_name` defined under the file `ansible/etc/config.yaml`
 ! Remark: You must define the location of the folder where you will install istio distro using the `istio.dest` variable.
 
-3. Install Istio on Openshift as the bookinginfo app
+3. Install Istio on Openshift within the namespace `istio-system`. 
 ```bash
 ansible-playbook ansible/main.yml -t install-istio
+```
+
+3. Install Bookinginfo app
+```bash
+ansible-playbook ansible/main.yml -t install-bookinfo
 ```
 
 4. Open the different applications into your browser
