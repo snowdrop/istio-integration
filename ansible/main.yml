@@ -44,7 +44,7 @@
 
     # Install Booking Info App
     - name: Deploy booking example
-      import_tasks: install_bookinfo.yml
+      import_tasks: istio/install_bookinfo.yml
       tags: [ install-bookinfo ]
 
     # Open Web Screens of the Applications
