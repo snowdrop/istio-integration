@@ -1,10 +1,14 @@
 - name: Add Istio to PATH
-    shell: ISTIO_BIN_DIR=$(cd {{ istio_dir }}/bin; pwd) | echo $ISTIO_BIN_DIR
-    register: r
+    shell: |
+      ISTIO_BIN_DIR=$(cd {{ istio_dir }}/bin; pwd)
+      export PATH=$PATH:$ISTIO_BIN_DIR
 
-- debug: var=r
+#    shell: ISTIO_BIN_DIR=$(cd {{ istio_dir }}/bin; pwd) | echo $ISTIO_BIN_DIR
+#    register: r
 
-- lineinfile:
-    path: ~/.bash_profiles
-    regexp: '.istio-{{ istio.release_tag_name }}'
-    line: "\n# Istio\nexport PATH=$PATH:{{ r.stdout }}"
+# - debug: var=r
+#
+# - lineinfile:
+#     path: ~/.bash_profiles
+#     regexp: '.istio-{{ istio.release_tag_name }}'
+#     line: "\n# Istio\nexport PATH=$PATH:{{ r.stdout }}"
