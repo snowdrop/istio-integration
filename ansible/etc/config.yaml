@@ -37,7 +37,7 @@ istio:
   repo: istio/istio
 
   # could be a tag "0.2.12" or be empty "", then in this case, the latest release will be downloaded
-  release_tag_name: ""
+  release_tag_name: "0.2.12"
 
   # Folder where you want to install the distro on your machine
   dest: "/Users/dabou/Code/istio/installation"
