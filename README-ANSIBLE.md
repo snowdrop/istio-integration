@@ -65,7 +65,7 @@ Now, you can execute the following playbooks in order to :
 
 1. Create a Minishift vm using the profile `istio-demo` and start it.
 ```bash
-ansible-playbook ansible/main.yml -t delete-vm --ask-become-pass
+ansible-playbook ansible/main.yml -t create-vm --ask-become-pass
 ```
 
 Remarks:
@@ -93,12 +93,12 @@ You can change the version to be installed using the variable `istio.release_tag
 ansible-playbook ansible/main.yml -t install-istio
 ```
 
-3. Install Bookinginfo app
+3. Install Bookinginfo app (optional)
 ```bash
 ansible-playbook ansible/main.yml -t install-bookinfo
 ```
 
-4. Open the different applications into your browser
+4. Open the different applications into your browser (optional)
 ```bash
 ansible-playbook ansible/main.yml -t launch
 ```
