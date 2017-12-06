@@ -1,4 +1,10 @@
-- name: Check if Istio distro folder exists
+- name: Create parent folder where distrio will be installed
+  file:
+    path: '{{ istio.dest }}'
+    state: directory
+    mode: 0755
+
+- name: Check if Istio distro folder exists under parent
   stat:
     path: "{{ istio.dest }}/istio-{{ istio.release_tag_name }}"
   register: p
