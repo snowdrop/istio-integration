@@ -1,3 +1,14 @@
+Table of Contents
+=================
+
+   * [Istio Deployment on OpenShift using Ansible](#istio-deployment-on-openshift-using-ansible)
+      * [Prerequisites](#prerequisites)
+      * [Install Minishift (optional)](#install-minishift-optional)
+      * [Install Istio and the Bookinfo project](#install-istio-and-the-bookinfo-project)
+         * [Download and install istio distribution](#download-and-install-istio-distribution)
+         * [Deploy Istio on OpenShift](#deploy-istio-on-openshift)
+         * [Bookinfo Demo (optional)](#bookinfo-demo-optional)
+
 # Istio Deployment on OpenShift using Ansible
 
 The Ansible scenario defined within this project will let you to : 
@@ -81,24 +92,29 @@ Remarks:
 - The Ansible parameter `--ask-become-pass` is required in order to prompt you to give your root/sudo password
   as xhyve requires root access on your machine ! 
 
-2. Deploy the Istio distribution on your laptop. By default, the latest istio [release](https://github.com/istio/istio/releases/) will be installed
+### Download and install istio distribution
+
+To deploy the Istio distribution on your laptop, execute this ansible playbook. By default, the latest istio [release](https://github.com/istio/istio/releases/) will be installed
 ```bash
 ansible-playbook ansible/main.yml -t install-distro
 ```
 You can change the version to be installed using the variable `istio.release_tag_name` defined under the file `ansible/etc/config.yaml`
 ! Remark: You must define the location of the folder where you will install istio distro using the `istio.dest` variable.
 
-3. Install Istio on Openshift within the namespace `istio-system`. 
+### Deploy Istio on OpenShift 
+
+To deploy the different components of the istio platform, then execute this plabook. It will install Istio on Openshift under the namespace `istio-system`. 
 ```bash
 ansible-playbook ansible/main.yml -t install-istio
 ```
+### Bookinfo Demo (optional)
 
-3. Install Bookinginfo app (optional)
+- Install Bookinginfo app
 ```bash
 ansible-playbook ansible/main.yml -t install-bookinfo
 ```
 
-4. Open the different applications into your browser (optional)
+- Open the different applications into your browser
 ```bash
 ansible-playbook ansible/main.yml -t launch
 ```
