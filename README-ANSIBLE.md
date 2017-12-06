@@ -70,11 +70,9 @@ During the installation, the following tasks will be performed:
 - Creates a route to the internal registry
 - Adds a hostname to /etc/hosts for accessing the internal registry
 
-## Install Istio and the Bookinfo project
+## Install Istio platform
 
-Now, you can execute the following playbooks in order to :
-
-1. Create a Minishift vm using the profile `istio-demo` and start it.
+Now, you can execute the following playbooks in order to create a Minishift vm using the profile `istio-demo` and start it.
 ```bash
 ansible-playbook ansible/main.yml -t create-vm --ask-become-pass
 ```
