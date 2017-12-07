@@ -97,6 +97,7 @@ To deploy the Istio distribution on your laptop, execute this ansible playbook. 
 ansible-playbook ansible/main.yml -t install-distro
 ```
 You can change the version to be installed using the variable `istio.release_tag_name` defined under the file `ansible/etc/config.yaml`
+
 ! Remark: You must define the location of the folder where you will install istio distro using the `istio.dest` variable.
 
 ### Deploy Istio on OpenShift 
