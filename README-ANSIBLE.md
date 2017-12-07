@@ -86,7 +86,7 @@ Remarks:
   - image-caching: true
   - cpus: 2
   - vm-driver: xhyve
-  - openshift-version: v3.7.0-rc.0
+  - openshift-version: v3.7.0
 - The Ansible parameter `--ask-become-pass` is required in order to prompt you to give your root/sudo password
   as xhyve requires root access on your machine ! 
 
