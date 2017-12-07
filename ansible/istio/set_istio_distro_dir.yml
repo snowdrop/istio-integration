@@ -1,9 +1,9 @@
-- name: Get Istio dir
-  shell: |
-    ISTIO_DIR=$(find {{ istio.dest }}/. -name \*istio\* -type d -maxdepth 1 -print -quit)
-    echo $ISTIO_DIR
-  register: p
+# - name: Get Istio dir
+#   shell: |
+#     ISTIO_DIR=$(find {{ istio.dest }}/. -name \*istio\* -type d -maxdepth 1 -print -quit)
+#     echo $ISTIO_DIR
+#   register: p
 
 - name: Define var containing Istio dir
   set_fact:
-    istio_dir: "{{ p.stdout }}"
+    istio_dir: "{{ istio.dest }}/istio-{{ istio.release_tag_name }}"
