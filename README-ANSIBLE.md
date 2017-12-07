@@ -102,7 +102,10 @@ You can change the version to be installed using the variable `istio.release_tag
 
 ### Deploy Istio on OpenShift 
 
-To deploy the different components of the istio platform, then execute this playbook. The ansible script assumes that you are already logged to an Openshift/Kubernetes instance. If you use minishift locally, then just log with the command `oc login -u admin  -p admin`. The playbook will install the Istio pods, services, ... on Openshift under the namespace `istio-system`.
+To deploy the different components of the istio platform, then execute this playbook.
+The ansible script assumes that you are already logged to an Openshift/Kubernetes instance.
+If you use minishift locally, then just log with the command `oc login -u admin  -p admin`.
+The playbook will install the Istio pods, services, ... on Openshift under the namespace `istio-system`.
 
 ```bash
 ansible-playbook ansible/main.yml -t install-istio
