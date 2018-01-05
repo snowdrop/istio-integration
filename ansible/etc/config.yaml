@@ -25,7 +25,7 @@ profile:
     - key: cpus
       value: 2
     - key: vm-driver
-      value: xhyve
+      value: "{{'kvm' if ansible_os_family in ['Red Hat', 'Debian'] else 'xhyve'}}"
     - key: openshift-version
       value: v3.7.0
 

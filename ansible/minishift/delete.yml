@@ -3,13 +3,15 @@
   register: ps_state
   ignore_errors: yes
 
+- set_fact: is_running={{ ps_state.stdout is defined and "Running" in ps_state.stdout }}
+
 - debug:
     msg: "Shutting down minishift..."
-  when: '"Running" in ps_state.stdout'
+  when: is_running
 
 - name: Shutdown minishift
   command: minishift stop --profile {{ profile.name }}
-  when: '"Running" in ps_state.stdout'
+  when: is_running
   ignore_errors: yes
 
 # ISSUE : The minishift vm is not deleted if you don't specify the user home env
