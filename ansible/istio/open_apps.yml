@@ -1,3 +1,7 @@
+- name: Choose command that opens URLs
+  set_fact:
+    browser_open_cmd: "{{'xdg-open' if ansible_distribution == 'Ubuntu' else 'open'}}"
+
 - name: Get Route and open web screens
   shell: |
     SERVICEGRAPH=$(oc get route servicegraph -o jsonpath='{.spec.host}{"\n"}')
@@ -5,13 +9,13 @@
     PRODUCTPAGE=$(oc get route productpage -o jsonpath='{.spec.host}{"\n"}')
     ZIPKIN=$(oc get route zipkin -o jsonpath='{.spec.host}{"\n"}')
 
-    open http://$SERVICEGRAPH/dotviz
-    open http://$GRAFANA/dashboard/db/istio-dashboard
-    open http://$ZIPKIN/zipkin/
-    open http://$PRODUCTPAGE/productpage
+    {{browser_open_cmd}} http://$SERVICEGRAPH/dotviz
+    {{browser_open_cmd}} http://$GRAFANA/dashboard/db/istio-dashboard
+    {{browser_open_cmd}} http://$ZIPKIN/zipkin/
+    {{browser_open_cmd}} http://$PRODUCTPAGE/productpage
 
 - name: Get Jaeger Route
   shell: |
    JAEGER=$(oc get route jaeger -o jsonpath='{.spec.host}{"\n"}')
-   open http://$ZIPKIN/zipkin/
+   {{browser_open_cmd}} http://$ZIPKIN/zipkin/
   when: istio.jaeger
