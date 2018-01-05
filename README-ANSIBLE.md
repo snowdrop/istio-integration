@@ -13,7 +13,7 @@ Table of Contents
 
 The Ansible scenario defined within this project will let you to : 
 
-- Install optionally `Minishift` and a hypervisor on your machine such as Xhyve (Darwin) or Kvm (Red Hat). Configure the `/etc/hosts` file with the clusterIP address 
+- Install optionally `Minishift` and a hypervisor on your machine such as Xhyve (Darwin) or Kvm (Red Hat, Debian). Configure the `/etc/hosts` file with the clusterIP address 
 - Install `Istio` Distribution and register the `istioctl` go client under your path
 - Configure the addons to be deployed in Istio such as `Grafana`, `Prometheus`, `Servicegraph`, `Jaeger` and their corresponding routes
 - Deploy a sample project to play with Istio
