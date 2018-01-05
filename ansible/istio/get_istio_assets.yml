@@ -1,34 +1,21 @@
-- name: Set MacOS Extension
+- name: Set release tag to latest
   set_fact:
-    os_ext: "osx.tar.gz"
-  when: ansible_os_family == 'Darwin'
+    release_tag: 'latest'
+  when: istio.release_tag_name == ''
 
-- name: Set Linux Extension
+- name: Set release tag to specific versioned
   set_fact:
-    os_ext: "linux.tar.gz"
-  when: ansible_os_family != 'Darwin' and ansible_os_family != 'Windows'
+    release_tag: "tags/{{ istio.release_tag_name }}"
+  when: istio.release_tag_name != ''
 
 - name: Get the tagged release
   uri:
-    url: "{{ istio.github_url }}/{{ istio.repo }}/releases/tags/{{ istio.release_tag_name }}"
+    url: "{{ istio.github_url }}/{{ istio.repo }}/releases/{{ release_tag }}"
   register: release
-  when: istio.release_tag_name != ''
 
 - name: Set release
   set_fact:
     assets_url: "{{ release.json.assets_url }}"
-  when: istio.release_tag_name != ''
-
-- name: Get the latest release
-  uri:
-    url: "{{ istio.github_url }}/{{ istio.repo }}/releases/latest"
-  register: release
-  when: istio.release_tag_name == ''
-
-- name: Set release
-  set_fact:
-    assets_url: "{{ release.json.assets_url }}"
-  when: istio.release_tag_name == ''
 
 - name: Should have an assets_url
   assert:
@@ -43,14 +30,14 @@
     url: "{{ assets_url }}"
   register: assets
 
-# - debug: var=assets
+- name: Set file extension to lookup
+  set_fact:
+    ext_pattern: "{{'.*osx.*' if ansible_os_family == 'Darwin' else '.*linux.*'}}"
 
-- name: Get the Mac asset
-  include_tasks: "istio/get_istio_darwin_asset.yml"
-  with_items: "{{ assets.json }}"
-  when: assets is defined and ansible_os_family == 'Darwin'
+- name: Extract the matching download url
+  set_fact:
+    asset_url: "{{assets.json | map(attribute='browser_download_url') | select('match', ext_pattern) | first}}"
 
-- name: Get the Linux asset
-  include_tasks: "istio/get_istio_linux_asset.yml"
-  with_items: "{{ assets.json }}"
-  when: assets is defined and ansible_os_family != 'Darwin' and ansible_os_family != 'Windows'
+- name: Extract the name of the asset
+  set_fact:
+    asset_name: "{{ asset_url | basename }}"
