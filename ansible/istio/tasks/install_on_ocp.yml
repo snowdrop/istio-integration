@@ -1,12 +1,10 @@
 - name: Deploy Istio from kubernetes file
-  shell: |
-    oc create -f {{ istio_dir }}/install/kubernetes/istio.yaml
+  shell: "{{ oc_path }} create -f {{ istio_dir }}/install/kubernetes/istio.yaml"
   when: not istio.auth
   ignore_errors: true
 
 - name: Deploy Istio Auth from kubernetes file
-  shell: |
-    oc create -f {{ istio_dir }}/install/kubernetes/istio-auth.yaml
+  shell: "{{ oc_path }} create -f {{ istio_dir }}/install/kubernetes/istio-auth.yaml"
   when: istio.auth
   ignore_errors: true
 

@@ -1,8 +1,0 @@
----
-- name: Install minishift
-  hosts: localhost
-  connection: local
-  gather_facts: yes
-  roles:
-    - role: chouseknecht.minishift-up-role
-

@@ -9,7 +9,8 @@
     path: "{{ istio.dest }}/istio-{{ istio.release_tag_name }}"
   register: p
 
-- debug: var=p.stat.path
+- name: Show istio installation path
+  debug: var=p.stat.path
 
 - name: Install Istio distribution
   include_tasks: install.yml

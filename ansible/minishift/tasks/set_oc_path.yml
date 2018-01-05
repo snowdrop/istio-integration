@@ -1,0 +1,21 @@
+---
+#Sets the oc_path fact so other tasks can use it
+
+- name: Get path of oc command
+  command: which oc
+  register: oc_which
+  ignore_errors: true
+
+#- debug:
+#    var: oc_which
+
+- name: Set oc_path from which output
+  set_fact:
+    oc_path: "{{oc_which.stdout_lines | first}}"
+  when: "oc_which.stdout_lines | length > 0"
+
+- include_tasks: set_oc_path_from_fs.yml
+  when: "oc_which.stdout_lines | length == 0"
+
+- debug:
+    var: oc_path

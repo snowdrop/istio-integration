@@ -5,9 +5,7 @@ Table of Contents
       * [Prerequisites](#prerequisites)
       * [Install Minishift (optional)](#install-minishift-optional)
       * [Install Istio and the Bookinfo project](#install-istio-and-the-bookinfo-project)
-         * [Download and install istio distribution](#download-and-install-istio-distribution)
-         * [Deploy Istio on OpenShift](#deploy-istio-on-openshift)
-         * [Bookinfo Demo (optional)](#bookinfo-demo-optional)
+      * [Typical use cases](#typical-use-cases)
 
 # Istio Deployment on OpenShift using Ansible
 
@@ -20,14 +18,12 @@ The Ansible scenario defined within this project will let you to :
 
 ## Prerequisites
 
-- [Ansible 2.4](ttp://docs.ansible.com/ansible/latest/intro_installation.html)
+- [Ansible 2.4](http://docs.ansible.com/ansible/latest/intro_installation.html)
 - [Minishift Role](https://docs.ansible.com/ansible-container/openshift/minishift.html)
 
-Refer to the Ansible Installation Doc how to install Ansible on your machine.
-To use the minishift role to install minishift, then use the
+Refer to the Ansible Installation Doc on how to install Ansible on your machine.
+To use the minishift role to install Minishift, then use the
 Ansible Galaxy command to install the role from the repository. 
-
-Remark : This minishift role is only required if you prefer to install minishift using ansible.
 
 ```bash
 cd ~
@@ -36,88 +32,99 @@ echo "export ANSIBLE_ROLES_PATH=~/roles" >>.bashrc
 ansible-galaxy install chouseknecht.minishift-up-role
 ```
 
+## Roles
+
+This playbook contains two roles:
+- minishift
+- istio
+
+To execute only one the `minishift` role, one would use a command like the following:
+
+ ```bash
+ ansible-playbook ansible/main.yml -t minishift
+ ```
+ 
+ To execute the `istio` role, use
+ 
+ ```bash
+ ansible-playbook ansible/main.yml -t istio
+ ```
+ 
+It should be noted, the the `minishift` role can be dependency of the `istio` role, meaning that when Ansible tries to execute the latter,
+it will first execute the former.
+
+Each role tries it's best to be idempotent, so running the playbook multiple times should be have the same effect as running it a single time.   
+
 ## Install Minishift (optional)
 
-When the Ansible Minishift role is installed, then you can play with it to install or reinstall Minishift.
-The parameters used to customize the scenario can be changed within the `etc/config.yaml` file. See `minishift` key.
+When the `minishift` role is used, then you can play with it to install Minishift and create a VM that will be used to deploy Istio.
 
-Here are the parameters defined for our config :
-
-- minishift_repo: minishift/minishift # Repo where the minishift binary can be found
-- minishift_github_url: https://api.github.com/repos
-- minishift_release_tag_name: "" # Defaults to installing the latest release. Use to install a specific minishift release.
-- minishift_dest: /usr/local/bin
-- minishift_force_install: yes # Overwrite any existing minishift binary found at minishift_dest
-- minishift_restart: no # Stop and recreate the existing minishift instance.
-- minishift_delete: yes # Perform `minishift delete`, and remove `~/.minishift`. If you're upgrading, you most likely want to do this.
-- minishift_start_options: []
-- openshift_client_dest: /usr/local/bin
-- openshift_force_client_copy: yes # Overwrite any existing OpenShift client binary found at {{ openshift_client_dest }}.
-
-and the playbook to install Minishift. 
+The default parameters that apply to this role can be found in `minishift/defaults/main.yml`. 
+Any of these parameters can be changed on the command line using Ansible's support for overriding parameters using JSON syntax
+(see [documentation](http://docs.ansible.com/ansible/latest/playbooks_variables.html#passing-variables-on-the-command-line) for more details).
+If for example the user wants to use a specific Minishift profile name and also increase the memory used (while keeping the defaults for all other parameters)
+he/she could execute the following command:
 
 ```bash
-ansible-playbook ansible/minishift/install.yml
-```
-
-During the installation, the following tasks will be performed:
-
-- Downloads and installs the latest minishift binary
-- Copies the latest oc binary from ~/.minishift/cache/oc to a directory in your PATH
-- Installs the Docker Machine driver
-- Creates a minishift instance
-- Grants cluster admin to the developer account
-- Creates a route to the internal registry
-- Adds a hostname to /etc/hosts for accessing the internal registry
-
-## Install Istio platform
-
-Now, you can execute the following playbooks in order to create a Minishift vm using the profile `istio-demo` and start it.
-```bash
-ansible-playbook ansible/main.yml -t create-vm --ask-become-pass
+ansible-playbook ansible/main.yml -t minishift -e '{"minishift": {"profile": {"name": "test", "config": {"memory": "4GB"}}}}'
 ```
 
 Remarks:
 
-- If a minishift instance already exists, then it will be stopped and the vm deleted. The profile will not be deleted !
-- The variables to configure the VM are defined under the file `ansible/etc/config.yaml`. See `profile/config`
+
+- The default profile used is named `istio-demo`.
+- The variables to configure the VM are defined under the file `minishift/defaults/main.yml`. See `minishift/profile/config`
   By default, they are defined as such :
   - memory: 3GB
   - image-caching: true
   - cpus: 2
   - vm-driver: xhyve
   - openshift-version: v3.7.0
+- If Minishift is already running as a VM in the specified profile, that VM will be used
 - The Ansible parameter `--ask-become-pass` is required in order to prompt you to give your root/sudo password
   as xhyve requires root access on your machine ! 
 
-### Download and install istio distribution
+In addition to the parameters supported by the role, you can also configure the parameters found [here](https://github.com/chouseknecht/minishift-up-role/blob/v1.0.11/defaults/main.yml)
+that control how Minishift is installed on your system. 
 
-To deploy the Istio distribution on your laptop, execute this ansible playbook. By default, the latest istio [release](https://github.com/istio/istio/releases/) will be installed
+## Install Istio platform
+
+The default parameters that apply to this role can be found in `istio/defaults/main.yml`. The same overriding rules apply for this profile as for the `minishift` profile.
+An example of an invocation would be:
 ```bash
-ansible-playbook ansible/main.yml -t install-distro
-```
-You can change the version to be installed using the variable `istio.release_tag_name` defined under the file `ansible/etc/config.yaml`
-
-! Remark: You must define the location of the folder where you will install istio distro using the `istio.dest` variable.
-
-### Deploy Istio on OpenShift 
-
-To deploy the different components of the istio platform, then execute this playbook.
-The ansible script assumes that you are already logged to an Openshift/Kubernetes instance.
-If you use minishift locally, then just log with the command `oc login -u admin  -p admin`.
-The playbook will install the Istio pods, services, ... on Openshift under the namespace `istio-system`.
-
-```bash
-ansible-playbook ansible/main.yml -t install-istio
-```
-### Bookinfo Demo (optional)
-
-- Install Bookinginfo app
-```bash
-ansible-playbook ansible/main.yml -t install-bookinfo
+ansible-playbook ansible/main.yml -t istio -e '{"istio": {"jaeger": true}}'
 ```
 
-- Open the different applications into your browser
+Remarks:
+
+Three very important parameters are the following:
+- `run_minishift_role` which defaults to `false`. In set to `true`, then Ansible will run the
+`minishift` role to create the VM locally, before attempting to install Istio on it. When the parameter is `false` then 
+it is assumed that the user has already configured the `oc` binary to point to a running / compatible Openshift cluster.
+- `oc_path_override` can be used when the user does not have the `oc` binary on the PATH and additionally the 
+`run_minishift_role` parameter is set (or defaults) to false.
+- `cluster_url` should be used when the user wishes to deploy Istio to a remote cluster
+
+Furthermore, the role assumes that the user is able to login to the target Openshift cluster using `admin/admin` credentials
+
+This playbook will take care of downloading and installing Istio locally on your machine, before deploying the necessary Kubernetes / Openshift
+pods, services etc. on to the cluster deployed via Minishift
+
+## Typical use cases
+
+Following are the simplest commands one could execute to play with the demo for some typical use cases
+
+- User does not have Minishift installed locally, nor has an `oc` binary pointing to a remote cluster :
 ```bash
-ansible-playbook ansible/main.yml -t launch
+ansible-playbook ansible/main.yml -t istio -e '{"run_minishift_role": true}'
+```
+
+- User already has the oc binary pointing to a running Minishift cluster
+```bash
+ansible-playbook ansible/main.yml -t istio
+```
+
+- User already has the oc binary pointing to a remote Openshift cluster
+```bash
+ansible-playbook ansible/main.yml -t istio -e '{"cluster_url": "host:ip"}'
 ```

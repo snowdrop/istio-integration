@@ -1,0 +1,10 @@
+---
+
+
+- include_tasks: config.yml
+
+- name: Start minishift
+  shell: |
+    minishift profile set {{ minishift.profile.name }}
+    minishift start --profile {{ minishift.profile.name }} > {{start_output}} 2>&1
+  ignore_errors: yes

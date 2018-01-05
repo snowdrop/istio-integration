@@ -1,0 +1,4 @@
+- name: Install Book info example
+  shell: |
+    {{ oc_path }} apply -f <({{ istio_dir }}/bin/istioctl kube-inject -f {{ istio_dir }}/samples/bookinfo/kube/bookinfo.yaml)
+    {{ oc_path }} expose svc productpage

@@ -1,2 +1,0 @@
-- name: Log on using admin user
-  shell: oc login -u admin -p admin
