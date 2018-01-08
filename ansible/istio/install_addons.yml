@@ -1,3 +1,11 @@
+- include_tasks: add_serviceaccount_to_addon.yml
+    add_on_name=prometheus
+  when: "'prometheus' in istio.addon"
+
+- include_tasks: add_serviceaccount_to_addon.yml
+    add_on_name=grafana
+  when: "'grafana' in istio.addon"
+
 - name: Install Addons
   shell: |
     oc create -f {{ istio_dir }}/install/kubernetes/addons/{{ item }}.yaml
