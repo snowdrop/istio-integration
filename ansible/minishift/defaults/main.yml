@@ -1,0 +1,15 @@
+---
+minishift:
+
+  profile:
+    # name of the Minishift profile to use
+    name: istio-demo
+    config:
+      memory: 3GB
+      image-caching: true
+      cpus: 2
+      vm-driver: "{{'kvm' if ansible_os_family in ['Red Hat', 'Debian'] else 'xhyve'}}"
+      openshift-version: v3.7.0
+
+  # if a VM exists in specified profile, should it be deleted or not
+  delete_existing: false

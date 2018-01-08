@@ -1,0 +1,12 @@
+---
+
+# Needed when creating a brand new profile
+- name: Set profile {{minishift.profile.name}}
+  command: minishift profile set {{ minishift.profile.name }}
+
+- name: Configure minishift vm, cpu, memory for profile {{minishift.profile.name}}
+  command: minishift --profile {{ minishift.profile.name }} config set {{ item.key }} {{ item.value }}
+  with_dict: "{{ minishift.profile.config }}"
+
+- name: Add minishift addon
+  command: minishift addon enable admin-user

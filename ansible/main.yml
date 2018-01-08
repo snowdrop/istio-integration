@@ -1,10 +1,8 @@
 ---
 - hosts: localhost
   gather_facts: true
-  vars_files:
-    - etc/config.yaml
 
-  tasks:
+  pre_tasks:
     # We require Ansible 2.4 or newer
     - name: Check Ansible version
       assert:
@@ -18,44 +16,6 @@
         msg: 'The playbook can only be run on Linux or Mac OSX systems'
       run_once: yes
 
-    - import_tasks: minishift/delete.yml
-      tags: [ delete-vm ]
-
-    # Create Minishift instance using config defined within etc/config.yaml file and start minishift
-    - block:
-      - import_tasks: minishift/delete.yml
-      - import_tasks: minishift/config.yml
-      - import_tasks: minishift/start.yml
-      - import_tasks: ocp/log_admin.yml
-      tags: [ create-vm ]
-
-    # Start Minishift
-    - block:
-      - import_tasks: minishift/start.yml
-      - import_tasks: ocp/log_admin.yml
-      tags: [ default ]
-
-    # Install Istio Distro if it doesn't exist
-    - import_tasks: istio/install_distro.yml
-      tags: [ install-distro ]
-
-    # Install Istio on Minishift
-    - name: Install Istio on Minishift OCP
-      block:
-      - import_tasks: istio/set_istio_distro_dir.yml
-      - import_tasks: istio/create_namespace.yml
-      - import_tasks: istio/change_scc.yml
-      - import_tasks: istio/install_on_ocp.yml
-      tags: [ install-istio ]
-
-    # Install Booking Info App
-    - name: Deploy booking example
-      import_tasks: istio/install_bookinfo.yml
-      tags: [ install-bookinfo ]
-
-    # Open Web Screens of the Applications
-    - import_tasks: istio/open_apps.yml
-      tags: [ launch ]
-
-
-
+  roles:
+    - {role: minishift, tags: minishift}
+    - {role: istio, tags: istio}

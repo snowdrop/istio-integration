@@ -10,7 +10,7 @@
 
 - name: Get the tagged release
   uri:
-    url: "{{ istio.github_url }}/{{ istio.repo }}/releases/{{ release_tag }}"
+    url: "{{ github_url }}/{{ istio_repo }}/releases/{{ release_tag }}"
   register: release
 
 - name: Set release

@@ -1,0 +1,19 @@
+- include_tasks: add_serviceaccount_to_addon.yml
+    add_on_name=prometheus
+  when: "'prometheus' in istio.addon"
+
+- include_tasks: add_serviceaccount_to_addon.yml
+    add_on_name=grafana
+  when: "'grafana' in istio.addon"
+
+- name: Install Addons
+  shell: |
+    {{ oc_path }} create -f {{ istio_dir }}/install/kubernetes/addons/{{ item }}.yaml
+    {{ oc_path }} expose svc {{ item }}
+  with_items: "{{ istio.addon }}"
+
+- name: Install Jaeger
+  shell: |
+    {{ oc_path }} apply -n {{ istio.namespace }} -f https://raw.githubusercontent.com/jaegertracing/jaeger-kubernetes/master/all-in-one/jaeger-all-in-one-template.yml
+    {{ oc_path }} expose svc jaeger
+  when: istio.jaeger
