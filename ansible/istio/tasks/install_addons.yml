@@ -1,10 +1,6 @@
 - include_tasks: add_serviceaccount_to_addon.yml
-    add_on_name=prometheus
-  when: "'prometheus' in istio.addon"
-
-- include_tasks: add_serviceaccount_to_addon.yml
-    add_on_name=grafana
-  when: "'grafana' in istio.addon"
+    add_on_name="{{item}}"
+  with_items: "{{selected_addons_needing_sa}}"
 
 - name: Install Addons
   shell: |

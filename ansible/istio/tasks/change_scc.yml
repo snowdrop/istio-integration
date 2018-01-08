@@ -8,10 +8,6 @@
     - istio-mixer-service-account
     - istio-ca-service-account
 
-- name: Define SCC rules to enable containers running with UID zero for Prometheus service accounts
-  command: "{{ oc_path }} adm policy add-scc-to-user anyuid -z istio-prometheus-service-account"
-  when: "'prometheus' in istio.addon"
-
-- name: Define SCC rules to enable containers running with UID zero for Grafana service accounts
-  command: "{{ oc_path }} adm policy add-scc-to-user anyuid -z istio-grafana-service-account"
-  when: "'grafana' in istio.addon"
+- name: Define SCC rules to enable containers running with UID zero for Addon service accounts
+  command: "{{ oc_path }} adm policy add-scc-to-user anyuid -z istio-item-service-account"
+  with_items: "{{selected_addons_needing_sa}}"

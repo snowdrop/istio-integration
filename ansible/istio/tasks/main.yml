@@ -1,5 +1,12 @@
 ---
 
+- name: Determine addons that need ServiceAccounts
+  set_fact:
+    selected_addons_needing_sa: "{{ istio.addon | intersect(addons_needing_sa) }}"
+
+- debug:
+    var: selected_addons_needing_sa
+
 - include_role:
     name: minishift
   when: run_minishift_role
