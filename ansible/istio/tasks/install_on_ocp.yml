@@ -1,11 +1,21 @@
-- name: Deploy Istio from kubernetes file
-  shell: "{{ oc_path }} create -f {{ istio_dir }}/install/kubernetes/istio.yaml"
-  when: not istio.auth
+- name: Determine which Kubernetes definition file to use
+  set_fact:
+    k8s_file: "{{ istio_dir }}/install/kubernetes/{{ 'istio-auth.yaml' if istio.auth == true else 'istio.yaml'}}"
+
+- debug:
+    var: k8s_file
+
+- name: Determine whether a ServiceAccount is present in the file
+  command: grep 'Namespace' {{ k8s_file }}
+  register: ngo
   ignore_errors: true
 
-- name: Deploy Istio Auth from kubernetes file
-  shell: "{{ oc_path }} create -f {{ istio_dir }}/install/kubernetes/istio-auth.yaml"
-  when: istio.auth
+# We only need to create the namespace if the Kubernetes definition file does not already define it
+- include_tasks: create_namespace.yml
+  when: ngo.stdout_lines | length == 0
+
+- name: Deploy Istio from kubernetes file
+  shell: "{{ oc_path }} create -f {{ k8s_file }}"
   ignore_errors: true
 
 - name: Deploy Addons defined such as Grafana, ...
