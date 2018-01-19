@@ -20,5 +20,5 @@
 #
 # - lineinfile:
 #     path: ms
-#     regexp: '.istio-{{ istio.release_tag_name }}'
+#     regexp: '.istio-{{ istio.istio_version_to_use }}'
 #     line: "\n# Istio\nexport PATH=$PATH:{{ r.stdout }}"

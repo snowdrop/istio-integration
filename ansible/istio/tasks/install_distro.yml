@@ -4,9 +4,11 @@
     state: directory
     mode: 0755
 
+- import_tasks: determine_version.yml
+
 - name: Check if Istio distro folder exists under parent
   stat:
-    path: "{{ istio.dest }}/istio-{{ istio.release_tag_name }}"
+    path: "{{ istio.dest }}/istio-{{ istio_version_to_use }}"
   register: p
 
 - name: Show istio installation path
