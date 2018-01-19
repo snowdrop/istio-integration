@@ -38,7 +38,7 @@ This playbook contains two roles:
 - minishift
 - istio
 
-To execute only one the `minishift` role, one would use a command like the following:
+To only execute the `minishift` role, one would use a command like the following:
 
  ```bash
  ansible-playbook ansible/main.yml -t minishift
@@ -50,7 +50,7 @@ To execute only one the `minishift` role, one would use a command like the follo
  ansible-playbook ansible/main.yml -t istio
  ```
  
-It should be noted, the the `minishift` role can be dependency of the `istio` role, meaning that when Ansible tries to execute the latter,
+It should be noted that the `minishift` role can be a dependency of the `istio` role, meaning that when Ansible tries to execute the latter,
 it will first execute the former.
 
 Each role tries it's best to be idempotent, so running the playbook multiple times should be have the same effect as running it a single time.   
@@ -127,4 +127,9 @@ ansible-playbook ansible/main.yml -t istio
 - User already has the oc binary pointing to a remote Openshift cluster
 ```bash
 ansible-playbook ansible/main.yml -t istio -e '{"cluster_url": "host:ip"}'
+```
+
+- User already has the oc binary pointing to a running Minishift cluster and wants to install Istio with settings other than the default
+```bash
+ansible-playbook ansible/main.yml -t istio -e '{"istio": {"release_tag_name": "0.4.0", "auth": true, "jaeger": true}}'
 ```
