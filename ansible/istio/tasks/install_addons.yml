@@ -7,6 +7,7 @@
     {{ oc_path }} create -f {{ istio_dir }}/install/kubernetes/addons/{{ item }}.yaml
     {{ oc_path }} expose svc {{ item }}
   with_items: "{{ istio.addon }}"
+  when: is_istioaddon_iterable
 
 - name: Install Jaeger
   shell: |
