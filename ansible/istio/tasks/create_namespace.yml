@@ -1,10 +1,10 @@
 - name: Check if namespace exists
-  shell: "{{ oc_path }} get namespace/{{ istio.namespace }}"
+  shell: "{{ oc_path }} get namespace/{{ istio_namespace }}"
   register: r
   ignore_errors: yes
 
 - name: Create namespace (if if doesn't exist)
-  shell: "{{ oc_path }} new-project istio-system"
+  shell: "{{ oc_path }} new-project {{ istio_namespace }}"
   when:
     - r.stderr != ""
     - r.stderr.find("NotFound") != -1

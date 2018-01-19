@@ -1,6 +1,8 @@
 ---
 github_url: https://api.github.com/repos
 istio_repo: istio/istio
+# only used when Kubernetes definition files do not specify the namespace - only true for older Istio versions
+istio_namespace: istio-system
 addons_needing_sa:
   - "grafana"
   - "prometheus"
