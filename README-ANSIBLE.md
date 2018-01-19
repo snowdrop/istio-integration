@@ -34,6 +34,9 @@ ansible-galaxy install chouseknecht.minishift-up-role
 
 ## Roles
 
+**Important**: All invocations of the Ansible playbooks need to take place at the root directory of the project.
+Failing to do so will result in unexpected errors 
+
 This playbook contains two roles:
 - minishift
 - istio
