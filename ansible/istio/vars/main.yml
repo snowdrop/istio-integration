@@ -4,3 +4,11 @@ istio_repo: istio/istio
 addons_needing_sa:
   - "grafana"
   - "prometheus"
+
+istio_all_addons:
+  - "grafana"
+  - "prometheus"
+  - "servicegraph"
+  - "zipkin"
+
+istio_k8s_install_path: "install/kubernetes"
