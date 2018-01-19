@@ -7,7 +7,3 @@
     - istio-pilot-service-account
     - istio-mixer-service-account
     - istio-ca-service-account
-
-- name: Define SCC rules to enable containers running with UID zero for Addon service accounts
-  command: "{{ oc_path }} adm policy add-scc-to-user anyuid -z istio-item-service-account"
-  with_items: "{{selected_addons_needing_sa}}"
