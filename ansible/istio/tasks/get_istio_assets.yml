@@ -1,12 +1,6 @@
-- name: Set release tag to latest
-  set_fact:
-    release_tag: 'latest'
-  when: istio.release_tag_name == ''
-
 - name: Set release tag to specific versioned
   set_fact:
-    release_tag: "tags/{{ istio.release_tag_name }}"
-  when: istio.release_tag_name != ''
+    release_tag: "tags/{{ istio_version_to_use }}"
 
 - name: Get the tagged release
   uri:

@@ -1,15 +1,9 @@
 - name: Get Assets according to the platform
   import_tasks: get_istio_assets.yml
 
-- debug:
-    var: asset_url, asset_name
-
 - name: Create a temp dir
   command: mktemp -d -t ansible.XXXXXXXXXX
   register: temp_output
-
-- debug:
-    var: temp_output
 
 - name: Download the asset
   get_url:

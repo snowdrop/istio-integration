@@ -6,4 +6,8 @@
 
 - name: Define var containing Istio dir
   set_fact:
-    istio_dir: "{{ istio.dest }}/istio-{{ istio.release_tag_name }}"
+    istio_dir: "{{ istio.dest }}/istio-{{ istio_version_to_use }}"
+
+- name: Show directory to be used on file system
+  debug:
+    msg: "Using the following directory to install Istio onto Kubernetes {{ istio_dir }}"
