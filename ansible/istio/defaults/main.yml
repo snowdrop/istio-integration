@@ -28,5 +28,8 @@ istio:
   # Whether or not the Bookinfo showcase should be installed as well
   bookinfo: false
 
+  # Namespace where bookinfo sample will be deployed (if so configured)
+  bookinfo_namespace: bookinfo
+
   # Whether or not to open apps in the browser
   open_apps: false
