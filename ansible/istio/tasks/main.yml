@@ -1,24 +1,20 @@
 ---
 
+- include_tasks: set_implicitly_disabled_addons.yml
+
 - name: Is istio.addon be iterable
   set_fact:
     is_istioaddon_iterable: "{{ istio.addon is defined and istio.addon is iterable }}"
 
-- debug:
-    var: is_istioaddon_iterable
-
 - name: Determine addons that need ServiceAccounts
   set_fact:
-    selected_addons_needing_sa: "{{ istio.addon | intersect(addons_needing_sa) }}"
+    selected_addons_needing_sa: "{{ istio.addon | intersect(addons_needing_sa) | difference(disabled_addons) }}"
   when: is_istioaddon_iterable == true
 
 - name: Set selected_addons_needing_sa to empty array
   set_fact:
     selected_addons_needing_sa: "[]"
   when: is_istioaddon_iterable == false
-
-- debug:
-    var: selected_addons_needing_sa
 
 - include_role:
     name: minishift

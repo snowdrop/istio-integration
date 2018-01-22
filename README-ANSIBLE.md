@@ -148,3 +148,12 @@ ansible-playbook ansible/main.yml -t istio -e '{"cluster_url": "host:ip"}'
 ```bash
 ansible-playbook ansible/main.yml -t istio -e '{"istio": {"release_tag_name": "0.4.0", "auth": true, "jaeger": true, "delete_resources": true}}'
 ```
+
+- User already has the oc binary pointing to a running Minishift cluster and wants to customize the Istio addons
+```bash
+ansible-playbook ansible/main.yml -t istio -e '{"istio": {"delete_resources": true, "addons": ["grafana", "prometheus"]}}'
+```
+
+The list of available addons can be found at `ansible/istio/vars.main.yml` under the name `istio_all_addons`.
+Jaeger is not installed using the `addons` property, but can be installed by enabling `"jaeger": true` like in one of the previous examples.
+It should be noted that when Jaeger is enabled, Zipkin is disabled whether or not it's been selected in the addons section.
