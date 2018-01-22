@@ -14,6 +14,12 @@
   ignore_errors: true
   with_items: "{{ istio_all_addons }}"
 
+- name: Delete Jaeger info
+  shell: |
+    {{ oc_path }} process -f https://raw.githubusercontent.com/jaegertracing/jaeger-openshift/master/all-in-one/jaeger-all-in-one-template.yml | {{ oc_path }} delete --ignore-not-found=true -f -
+    {{ oc_path }} delete svc jaeger --ignore-not-found=true
+  ignore_errors: true
+
 
 - name: Delete content from Istio Kubernetes file
   command: "{{ oc_path }} delete -f {{ istio_copied_definition_file_full_path }} --ignore-not-found=true -n {{ istio.namespace }}"
