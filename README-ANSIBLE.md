@@ -100,13 +100,14 @@ ansible-playbook ansible/main.yml -t istio -e '{"istio": {"jaeger": true}}'
 
 Remarks:
 
-Three very important parameters are the following:
+A few very important parameters are the following:
 - `run_minishift_role` which defaults to `false`. In set to `true`, then Ansible will run the
 `minishift` role to create the VM locally, before attempting to install Istio on it. When the parameter is `false` then 
 it is assumed that the user has already configured the `oc` binary to point to a running / compatible Openshift cluster.
 - `oc_path_override` can be used when the user does not have the `oc` binary on the PATH and additionally the 
 `run_minishift_role` parameter is set (or defaults) to false.
 - `cluster_url` should be used when the user wishes to deploy Istio to a remote cluster
+- `istio.delete_resources` should be set to true when an existing installation is already present on the cluster. By default this parameters is set to false and the playbook will fail if Istio has already been installed
 
 Furthermore, the role assumes that the user is able to login to the target Openshift cluster using `admin/admin` credentials
 
@@ -134,5 +135,5 @@ ansible-playbook ansible/main.yml -t istio -e '{"cluster_url": "host:ip"}'
 
 - User already has the oc binary pointing to a running Minishift cluster and wants to install Istio with settings other than the default
 ```bash
-ansible-playbook ansible/main.yml -t istio -e '{"istio": {"release_tag_name": "0.4.0", "auth": true, "jaeger": true}}'
+ansible-playbook ansible/main.yml -t istio -e '{"istio": {"release_tag_name": "0.4.0", "auth": true, "jaeger": true, "delete_resources": true}}'
 ```

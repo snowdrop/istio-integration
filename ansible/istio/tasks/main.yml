@@ -29,6 +29,8 @@
 
 - include_tasks: install_distro.yml
 - include_tasks: log_admin.yml
+- include_tasks: delete_resources.yml
+  when: istio.delete_resources == true
 - include_tasks: create_namespace.yml
 - include_tasks: change_scc.yml
 - include_tasks: install_on_ocp.yml

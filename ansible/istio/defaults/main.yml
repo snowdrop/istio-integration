@@ -16,11 +16,7 @@ istio:
   # OpenShift project / Kubernetes namespace to be created
   namespace: istio-system
 
-  addon:
-    - "grafana"
-    - "prometheus"
-    - "servicegraph"
-    - "zipkin"
+  addon: "{{ istio_all_addons }}"
 
   # Whether or not Jaeger should be installed as well
   jaeger: false
@@ -33,3 +29,6 @@ istio:
 
   # Whether or not to open apps in the browser
   open_apps: false
+
+  # Whether to delete resources that might exist from previous Istio installations
+  delete_resources: false
