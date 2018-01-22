@@ -32,6 +32,9 @@ echo "export ANSIBLE_ROLES_PATH=~/roles" >>.bashrc
 ansible-galaxy install chouseknecht.minishift-up-role
 ```
 
+If Minishift is not going to being used to deploy an Openshift cluster and instead the Istio role will be used against a running Openshift cluster, 
+that cluster must be at version `3.7.0` or higher. This is necessary since some of Istio's features only work on Openshift `3.7.0`+.
+
 ## Roles
 
 **Important**: All invocations of the Ansible playbooks need to take place at the root directory of the project.
@@ -113,6 +116,14 @@ Furthermore, the role assumes that the user is able to login to the target Opens
 
 This playbook will take care of downloading and installing Istio locally on your machine, before deploying the necessary Kubernetes / Openshift
 pods, services etc. on to the cluster deployed via Minishift
+
+### Note on istio.delete_resources
+
+Activating the `istio.delete_resources` flag will result in any Istio related resources being deleted from the cluster before Istio is reinstalled.
+
+In order to avoid any inconsistency issues, this flag should only be used to reinstall the same version of Istio on a cluster. If a new version
+of Istio need to be reinstalled, then it is advisable to delete the `istio-system` namespace before executing the playbook (in which case the 
+`istio.delete_resources` flag does not need to be activated)  
 
 ## Typical use cases
 
