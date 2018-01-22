@@ -11,6 +11,7 @@
 
 - name: Install Jaeger
   shell: |
-    {{ oc_path }} apply -n {{ istio.namespace }} -f https://raw.githubusercontent.com/jaegertracing/jaeger-kubernetes/master/all-in-one/jaeger-all-in-one-template.yml
+    {{ oc_path }} process -f https://raw.githubusercontent.com/jaegertracing/jaeger-openshift/master/all-in-one/jaeger-all-in-one-template.yml | {{ oc_path }} create -f -
     {{ oc_path }} expose svc jaeger
   when: istio.jaeger
+  ignore_errors: true # can fail because Zipkin might already be installed in the addons
