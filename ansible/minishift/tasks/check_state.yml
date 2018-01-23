@@ -1,9 +1,0 @@
----
-#When the tasks complete, the minishift_is_running variable is populated
-
-- name: Check if minishift is running
-  command: minishift status --profile {{ minishift.profile.name }}
-  register: ps_state
-  ignore_errors: yes
-
-- set_fact: minishift_is_running={{ ps_state.stdout is defined and "Running" in ps_state.stdout }}

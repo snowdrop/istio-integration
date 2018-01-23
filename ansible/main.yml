@@ -17,5 +17,4 @@
       run_once: yes
 
   roles:
-    - {role: minishift, tags: minishift}
-    - {role: istio, tags: istio}
+    - istio
