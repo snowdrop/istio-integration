@@ -9,5 +9,5 @@
 
 - name: Fallback to assuming that oc already on the PATH
   set_fact:
-    cmd_path: "{{'oc' if cluster_flavour == 'oc' else 'kubectl' }}"
+    cmd_path: "{{'ocp' if cluster_flavour == 'oc' else 'kubectl' }}"
   when: cmd_path is not defined

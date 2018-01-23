@@ -2,8 +2,8 @@
 # If set to true, the minishift role is first executed to setup a proper VM for installing Istio locally
 run_minishift_role: false
 
-# Whether the cluster is an Openshift (oc) or stock Kubernetes (k8s) cluster
-cluster_flavour: oc #k8s
+# Whether the cluster is an Openshift (ocp) or upstream Kubernetes (k8s) cluster
+cluster_flavour: ocp
 
 istio:
 

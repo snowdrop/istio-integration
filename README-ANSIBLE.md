@@ -107,7 +107,7 @@ A few very important parameters are the following:
 - `run_minishift_role` which defaults to `false`. In set to `true`, then Ansible will run the
 `minishift` role to create the VM locally, before attempting to install Istio on it. When the parameter is `false` then 
 it is assumed that the user has already configured the `oc` binary to point to a running / compatible Openshift cluster.
-- `cluster_flavour` defines whether the target cluster is an upstream Kubernetes cluster or an Openshift cluster (which is the default). Valid values are `k8s` and `oc`
+- `cluster_flavour` defines whether the target cluster is an upstream Kubernetes cluster or an Openshift cluster (which is the default). Valid values are `k8s` and `ocp`
 - `cmd_path_override` can be used when the user does not have the `oc` or `kubectl` binary on the PATH and additionally the 
 `run_minishift_role` parameter is set (or defaults) to false.
 - `cluster_url` should be used when the user wishes to deploy Istio to a remote cluster. For this setting to work `oc` or `kubectl` must be pre-configured to have access to the cluster
