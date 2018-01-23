@@ -30,4 +30,4 @@
     that: minishift_is_running
     msg: "Something went wrong while starting minishift... Checkout the 'minishift start' logs at {{start_output}}"
 
-- include_tasks: set_oc_path.yml
+- include_tasks: set_cmd_path.yml

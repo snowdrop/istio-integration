@@ -2,6 +2,9 @@
 # If set to true, the minishift role is first executed to setup a proper VM for installing Istio locally
 run_minishift_role: false
 
+# Whether the cluster is an Openshift (ocp) or upstream Kubernetes (k8s) cluster
+cluster_flavour: ocp
+
 istio:
 
   # Could be a tag "0.2.12, 0.3.0, 0.4.0" version or be empty "", then in this case, the latest release will be downloaded

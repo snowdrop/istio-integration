@@ -1,0 +1,13 @@
+---
+
+- name: Explicitly set cmd_path from cmd_path_override
+  set_fact:
+    cmd_path: "{{cmd_path_override}}"
+  when:
+    - cmd_path is not defined
+    - cmd_path_override is defined
+
+- name: Fallback to assuming that oc already on the PATH
+  set_fact:
+    cmd_path: "{{'ocp' if cluster_flavour == 'oc' else 'kubectl' }}"
+  when: cmd_path is not defined
