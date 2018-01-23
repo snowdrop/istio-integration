@@ -9,9 +9,6 @@
     file_type: directory
   register: oc_versions
 
-#- debug:
-#    var: oc_versions.files
-
 - name: Set latest_oc_version
   set_fact:
     latest_oc_version: "{{ oc_versions.files | last }}"
@@ -25,13 +22,10 @@
     file_type: file
   register: matching_oc_files
 
-#- debug:
-#    var: matching_oc_files.files
-
 - name: Use first matching oc file
   set_fact:
     first_matching_oc_file: "{{ matching_oc_files.files | first }}"
 
-- name: Set oc_path from discovered binaries
+- name: Set cmd_path from discovered binaries
   set_fact:
-    oc_path: "{{ first_matching_oc_file.path }}"
+    cmd_path: "{{ first_matching_oc_file.path }}"

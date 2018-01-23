@@ -1,15 +1,22 @@
 - include_tasks: add_serviceaccount_to_addon.yml
     add_on_name="{{item}}"
-  with_items: "{{selected_addons_needing_sa}}"
+  with_items: "{{ selected_addons_needing_sa }}"
+  when: cluster_flavour == 'oc'
 
 - name: Install Addons
   shell: |
-    {{ oc_path }} create -f {{ istio_dir }}/install/kubernetes/addons/{{ item }}.yaml
-    {{ oc_path }} expose svc {{ item }}
+    {{ cmd_path }} create -f {{ istio_dir }}/install/kubernetes/addons/{{ item }}.yaml
+    {{ cmd_path }} expose svc {{ item }}
   with_items: "{{ istio.addon | difference(disabled_addons) }}"
+  ignore_errors: true
   when: is_istioaddon_iterable
 
-- name: Install Jaeger
+- name: Install Jaeger on Openshift
   shell: |
-    {{ oc_path }} process -f https://raw.githubusercontent.com/jaegertracing/jaeger-openshift/master/all-in-one/jaeger-all-in-one-template.yml | {{ oc_path }} create -f -
-  when: istio.jaeger
+    {{ cmd_path }} process -f https://raw.githubusercontent.com/jaegertracing/jaeger-openshift/master/all-in-one/jaeger-all-in-one-template.yml | {{ oc_path }} create -f -
+  when: istio.jaeger == true and cluster_flavour == 'oc'
+
+- name: Install Jaeger on Kubernetes
+  shell: |
+    {{ cmd_path }} create -f https://raw.githubusercontent.com/jaegertracing/jaeger-kubernetes/master/all-in-one/jaeger-all-in-one-template.yml
+  when: istio.jaeger == true and cluster_flavour == 'k8s'

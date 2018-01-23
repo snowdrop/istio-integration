@@ -1,17 +1,17 @@
 Table of Contents
 =================
 
-   * [Istio Deployment on OpenShift using Ansible](#istio-deployment-on-openshift-using-ansible)
+   * [Istio Deployment on Kubernetes / OpenShift using Ansible](#istio-deployment-on-kubernetes-or-openshift-using-ansible)
       * [Prerequisites](#prerequisites)
       * [Install Minishift (optional)](#install-minishift-optional)
       * [Install Istio and the Bookinfo project](#install-istio-and-the-bookinfo-project)
       * [Typical use cases](#typical-use-cases)
 
-# Istio Deployment on OpenShift using Ansible
+# Istio Deployment on Kubernetes or OpenShift using Ansible
 
 The Ansible scenario defined within this project will let you to : 
 
-- Install optionally `Minishift` and a hypervisor on your machine such as Xhyve (Darwin) or Kvm (Red Hat, Debian). Configure the `/etc/hosts` file with the clusterIP address 
+- Optionally install `Minishift` and a hypervisor on your machine such as Xhyve (Darwin) or Kvm (Red Hat, Debian). Configure the `/etc/hosts` file with the clusterIP address 
 - Install `Istio` Distribution and register the `istioctl` go client under your path
 - Configure the addons to be deployed in Istio such as `Grafana`, `Prometheus`, `Servicegraph`, `Jaeger` and their corresponding routes
 - Deploy a sample project to play with Istio
@@ -32,8 +32,8 @@ echo "export ANSIBLE_ROLES_PATH=~/roles" >>.bashrc
 ansible-galaxy install chouseknecht.minishift-up-role
 ```
 
-If Minishift is not going to being used to deploy an Openshift cluster and instead the Istio role will be used against a running Openshift cluster, 
-that cluster must be at version `3.7.0` or higher. This is necessary since some of Istio's features only work on Openshift `3.7.0`+.
+If Minishift is not going to being used to deploy an Openshift cluster and instead the Istio role will be used against a running Openshift or Kubernetes cluster, 
+that cluster must be a Kubernetes version of `1.7.0` or higher. This is necessary since some of Istio's features only work on such clusters.
 
 ## Roles
 
@@ -107,15 +107,16 @@ A few very important parameters are the following:
 - `run_minishift_role` which defaults to `false`. In set to `true`, then Ansible will run the
 `minishift` role to create the VM locally, before attempting to install Istio on it. When the parameter is `false` then 
 it is assumed that the user has already configured the `oc` binary to point to a running / compatible Openshift cluster.
-- `oc_path_override` can be used when the user does not have the `oc` binary on the PATH and additionally the 
+- `cluster_flavour` defines whether the target cluster is an upstream Kubernetes cluster or an Openshift cluster (which is the default). Valid values are `k8s` and `oc`
+- `cmd_path_override` can be used when the user does not have the `oc` or `kubectl` binary on the PATH and additionally the 
 `run_minishift_role` parameter is set (or defaults) to false.
-- `cluster_url` should be used when the user wishes to deploy Istio to a remote cluster
+- `cluster_url` should be used when the user wishes to deploy Istio to a remote cluster. For this setting to work `oc` or `kubectl` must be pre-configured to have access to the cluster
 - `istio.delete_resources` should be set to true when an existing installation is already present on the cluster. By default this parameters is set to false and the playbook will fail if Istio has already been installed
 
-Furthermore, the role assumes that the user is able to login to the target Openshift cluster using `admin/admin` credentials
+Furthermore in case of Openshift, the role assumes that the user is able to login to the target Openshift cluster using `admin/admin` credentials
 
 This playbook will take care of downloading and installing Istio locally on your machine, before deploying the necessary Kubernetes / Openshift
-pods, services etc. on to the cluster deployed via Minishift
+pods, services etc. on to the cluster
 
 ### Note on istio.delete_resources
 
@@ -134,9 +135,14 @@ Following are the simplest commands one could execute to play with the demo for 
 ansible-playbook ansible/main.yml -t istio -e '{"run_minishift_role": true}'
 ```
 
-- User already has Minishift installed and wants to use it to install Istio
+- User already has Minishift installed and wants to use it to install Istio on the local Openshift
 ```bash
 ansible-playbook ansible/main.yml -t istio
+```
+
+- User already has a `kubectl` configured to access a Kubernetes cluster and wants to install Istio on it 
+```bash
+ansible-playbook ansible/main.yml -t istio e '{"cluster_flavour": "k8s"}' 
 ```
 
 - User has a non-local Openshift cluster and wants to it to install Istio

@@ -20,16 +20,18 @@
     name: minishift
   when: run_minishift_role
 
-- include_tasks: set_appropriate_oc_path.yml
-  when: oc_path is not defined
+- include_tasks: set_appropriate_cmd_path.yml
+  when: cmd_path is not defined
 
 - include_tasks: install_distro.yml
 - include_tasks: log_admin.yml
+  when: cluster_flavour == 'oc'
 - include_tasks: delete_resources.yml
   when: istio.delete_resources == true
 - include_tasks: create_namespace.yml
 - include_tasks: change_scc.yml
-- include_tasks: install_on_ocp.yml
+  when: cluster_flavour == 'oc'
+- include_tasks: install_on_cluster.yml
 
 - name: Install bookinfo showcase
   include_tasks: install_bookinfo.yml
