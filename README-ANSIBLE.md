@@ -129,27 +129,27 @@ of Istio need to be reinstalled, then it is advisable to delete the `istio-syste
 
 Following are the simplest commands one could execute to play with the demo for some typical use cases
 
-- User does not have Minishift installed locally, nor has an `oc` binary pointing to a remote cluster :
+- User does not have Minishift installed locally and want's to install it and use it to install istio :
 ```bash
 ansible-playbook ansible/main.yml -t istio -e '{"run_minishift_role": true}'
 ```
 
-- User already has the oc binary pointing to a running Minishift cluster
+- User already has Minishift installed and wants to use it to install Istio
 ```bash
 ansible-playbook ansible/main.yml -t istio
 ```
 
-- User already has the oc binary pointing to a remote Openshift cluster
+- User has a non-local Openshift cluster and wants to it to install Istio
 ```bash
 ansible-playbook ansible/main.yml -t istio -e '{"cluster_url": "host:ip"}'
 ```
 
-- User already has the oc binary pointing to a running Minishift cluster and wants to install Istio with settings other than the default
+- User wants to install Istio on Minishift with settings other than the default
 ```bash
 ansible-playbook ansible/main.yml -t istio -e '{"istio": {"release_tag_name": "0.4.0", "auth": true, "jaeger": true, "delete_resources": true}}'
 ```
 
-- User already has the oc binary pointing to a running Minishift cluster and wants to customize the Istio addons
+- User wants to install Istio on Minishift and wants to customize the Istio addons
 ```bash
 ansible-playbook ansible/main.yml -t istio -e '{"istio": {"delete_resources": true, "addons": ["grafana", "prometheus"]}}'
 ```
