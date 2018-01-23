@@ -1,2 +1,0 @@
-- name: Log on using admin user
-  command: "{{ cmd_path }} {{cluster_url if cluster_url is defined else ''}} login -u admin -p admin"

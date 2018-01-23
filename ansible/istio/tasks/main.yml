@@ -16,10 +16,6 @@
     selected_addons_needing_sa: "[]"
   when: is_istioaddon_iterable == false
 
-- include_role:
-    name: minishift
-  when: run_minishift_role
-
 - include_tasks: set_appropriate_cmd_path.yml
   when: cmd_path is not defined
 
