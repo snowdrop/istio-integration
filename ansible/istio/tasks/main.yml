@@ -24,13 +24,11 @@
   when: cmd_path is not defined
 
 - include_tasks: install_distro.yml
-- include_tasks: log_admin.yml
-  when: cluster_flavour == 'oc'
 - include_tasks: delete_resources.yml
   when: istio.delete_resources == true
 - include_tasks: create_namespace.yml
 - include_tasks: change_scc.yml
-  when: cluster_flavour == 'oc'
+  when: cluster_flavour == 'ocp'
 - include_tasks: install_on_cluster.yml
 
 - name: Install bookinfo showcase

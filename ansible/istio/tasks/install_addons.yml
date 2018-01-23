@@ -1,7 +1,7 @@
 - include_tasks: add_serviceaccount_to_addon.yml
     add_on_name="{{item}}"
   with_items: "{{ selected_addons_needing_sa }}"
-  when: cluster_flavour == 'oc'
+  when: cluster_flavour == 'ocp'
 
 - name: Install Addons
   shell: |
@@ -14,7 +14,7 @@
 - name: Install Jaeger on Openshift
   shell: |
     {{ cmd_path }} process -f https://raw.githubusercontent.com/jaegertracing/jaeger-openshift/master/all-in-one/jaeger-all-in-one-template.yml | {{ oc_path }} create -f -
-  when: istio.jaeger == true and cluster_flavour == 'oc'
+  when: istio.jaeger == true and cluster_flavour == 'ocp'
 
 - name: Install Jaeger on Kubernetes
   shell: |
