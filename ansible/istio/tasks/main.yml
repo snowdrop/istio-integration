@@ -30,8 +30,3 @@
 - name: Install bookinfo showcase
   include_tasks: install_bookinfo.yml
   when: istio.bookinfo
-
-
-- name: Open browser
-  include_tasks: open_apps.yml
-  when: istio.open_apps
