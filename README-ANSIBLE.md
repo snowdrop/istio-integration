@@ -19,7 +19,7 @@ The Ansible scenario defined within this project will let you to :
 - [Ansible 2.4](http://docs.ansible.com/ansible/latest/intro_installation.html)
 
 Refer to the Ansible Installation Doc on how to install Ansible on your machine.
-To use locally `[Minishift](https://docs.openshift.org/latest/minishift/command-ref/minishift_start.html)` or `[Minikube](https://kubernetes.io/docs/getting-started-guides/minikube/)`, please refer to their respective documentation. 
+To use [Minishift](https://docs.openshift.org/latest/minishift/command-ref/minishift_start.html) or [Minikube](https://kubernetes.io/docs/getting-started-guides/minikube/) for local clusters, please refer to their respective documentation. 
 
 ## Execution
 
@@ -53,7 +53,7 @@ The full list of configurable parameters is as follows:
 | --- | --- | --- |
 | `cluster_flavour` | Defines whether the target cluster is a Kubernetes or an Openshift cluster. | Valid values are `k8s` and `ocp` (default) |
 | `cmd_path` | Can be used when the user does not have the `oc` or `kubectl` binary on the PATH | Defaults to expecting the binary is on the path | 
-| `istio.release_tag_name` | Should be a valid Istio release version. If let empty then the latest Istio release will be installed | `0.2.12`, `0.3.0`, `0.4.0` (default) |
+| `istio.release_tag_name` | Should be a valid Istio release version. If left empty, the latest Istio release will be installed | `0.2.12`, `0.3.0`, `0.4.0` (default) |
 | `istio.dest` | Destination folder you want to install on your machine istio distribution | `~/.istio` (default) |
 | `istio.auth` | Boolean value to install istio using MUTUAL_TLS | `true` and `false` (default) |
 | `istio.namespace` | The namespace where istio will be installed | `istio-system` (default) |
@@ -92,11 +92,6 @@ ansible-playbook ansible/main.yml -e '{"cluster_flavour": "k8s"}'
 - User installs Istio on to a Kubernetes cluster and the path to `kubectl` is expicitly set (perhaps it's not on the PATH)
 ```bash
 ansible-playbook ansible/main.yml -e '{"cluster_flavour": "k8s", "cmd_path": "~/kubectl"}' 
-```
-
-- User has a non-local Openshift cluster and wants to install Istio on it
-```bash
-ansible-playbook ansible/main.yml -e '{"cluster_url": "host_ip"}'
 ```
 
 - User wants to install Istio on Openshift with settings other than the default
