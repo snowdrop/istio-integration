@@ -41,20 +41,30 @@ ansible-playbook ansible/main.yml
 Remarks:
 - The role tries it's best to be idempotent, so running the playbook multiple times should be have the same effect as running it a single time.   
 - The default parameters that apply to this role can be found in `istio/defaults/main.yml`.
+- To change parameters from the command line use Ansible's syntax for doing so as is described [here](http://docs.ansible.com/ansible/latest/playbooks_variables.html#passing-variables-on-the-command-line)
 
-An example of an invocation where we want to deploy Jaeger instead of ~ipkin would be:
+An example of an invocation where we want to deploy Jaeger instead of Zipkin would be:
 ```bash
 ansible-playbook ansible/main.yml -e '{"istio": {"jaeger": true}}'
 ```
 
-Some of the most important parameters are the following:
+The full list of configurable parameters is as follows:
 
-| Paramter | Description | Values |
+| Parameter | Description | Values |
 | --- | --- | --- |
 | `cluster_flavour` | defines whether the target cluster is a Kubernetes or an Openshift cluster. | Valid values are `k8s` and `ocp` - default
-| `cmd_path` | can be used when the user does not have the `oc` or `kubectl` binary on the PATH |  
-| `istio.delete_resources` | should be set to true when an existing installation is already present on the cluster. By default this parameters is set to false and the playbook will fail if Istio has already been installed | 
+| `cmd_path` | can be used when the user does not have the `oc` or `kubectl` binary on the PATH | Defaults to expecting the binary is on the path 
 | `cluster_url` | should be used when the user wishes to deploy Istio on a remote Openshift cluster. The URL will be used by `oc login`. | 
+| `istio.delete_resources` | should be set to true when an existing installation is already present on the cluster. By default this parameters is set to false and the playbook will fail if Istio has already been installed | `true` and `false` - default  
+| `istio.release_tag_name` | should be a valid Istio release version. If let empty then the latest Istio release will be installed | `0.2.12`, `0.3.0`, `0.4.0` - default  
+| `istio.dest` | The path on the local file system where the Istio release will be found | `~/.istio` - default  
+| `istio.auth` | Whether TLS is enabled for Istio | `true` and `false` - default  
+| `istio.namespace` | Namespace where istio will be installed | `istio-system` is the default  
+| `istio.addon` | Which Istio addons should be installed as well | This field is an array field, which by default contains `grafana`, `prometheus`, `zipkin` and `servicegraph`  
+| `istio.jaeger` | Whether or not Jaeger tracing should also be installed | `true` and `false` - default  
+| `istio.bookinfo` | Whether or not to install Istio's Book Info showcase | `true` and `false` - default  
+| `istio.bookinfo_namespace` | The namespace into which to install Book Info showcase | `bookinfo` is the default  
+| `istio.open_apps` | Whether or not to open the user's browser and point to the various services | `true` and `false` - default  
 
 This playbook will take care of downloading and installing Istio locally on your machine, before deploying the necessary Kubernetes / Openshift
 pods, services etc. on to the cluster
