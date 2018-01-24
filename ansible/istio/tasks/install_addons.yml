@@ -3,12 +3,7 @@
   with_items: "{{ selected_addons_needing_sa }}"
   when: cluster_flavour == 'ocp'
 
-- name: Install Addons
-  shell: |
-    {{ cmd_path }} create -f {{ istio_dir }}/install/kubernetes/addons/{{ item }}.yaml
-    {{ cmd_path }} expose svc {{ item }} -n istio-system
-  with_items: "{{ istio.addon | difference(disabled_addons) }}"
-  ignore_errors: true
+- include_tasks: install_istio_addons.yml
   when: is_istioaddon_iterable
 
 - name: Install Jaeger on Openshift
