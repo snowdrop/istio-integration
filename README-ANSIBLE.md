@@ -1,12 +1,12 @@
 Table of Contents
 =================
 
-   * [Istio Deployment on Kubernetes / OpenShift using Ansible](#istio-deployment-on-kubernetes-or-openshift-using-ansible)
+   * [Ansible playbook to install Istio](#ansible-playbook-to-install-istio)
       * [Prerequisites](#prerequisites)
       * [Execution](#execution)
       * [Typical use cases](#typical-use-cases)
 
-# Istio Deployment on Kubernetes or OpenShift using Ansible
+# Ansible playbook to install Istio
 
 The Ansible scenario defined within this project will let you to : 
 
