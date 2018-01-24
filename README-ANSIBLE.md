@@ -25,7 +25,7 @@ To use [Minishift](https://docs.openshift.org/latest/minishift/command-ref/minis
 
 The role assumes that the user :
 - Can access a Kubernetes or Openshift cluster via `kubectl` or `oc` respectively and is authenticated against the cluster. 
-- Connected to Openshift has the `admin` role on the OpenShift platform
+- Has the `admin` role on the OpenShift platform
 
 Remark : Furthermore the minimum Kubernetes version that is compatible is `1.7.0` (`3.7.0` is the corresponding OpenShift version).   
 
@@ -42,11 +42,6 @@ Remarks:
 - The role tries it's best to be idempotent, so running the playbook multiple times should be have the same effect as running it a single time.   
 - The default parameters that apply to this role can be found in `istio/defaults/main.yml`.
 
-An example of an invocation where we want to deploy Jaeger instead of Zipkin would be:
-```bash
-ansible-playbook ansible/main.yml -e '{"istio": {"jaeger": true}}'
-```
-
 The full list of configurable parameters is as follows:
 
 | Parameter | Description | Values |
@@ -62,6 +57,12 @@ The full list of configurable parameters is as follows:
 | `istio.bookinfo` | Whether or not to install Istio's Book Info showcase | `true` and `false` (default)|
 | `istio.bookinfo_namespace` | The namespace into which to install Book Info showcase | `bookinfo` (default) |
 | `istio.delete_resources` | Boolean value to delete resources created under the istio namespace | `true` and `false` (default)|
+
+
+An example of an invocation where we want to deploy Jaeger instead of Zipkin would be:
+```bash
+ansible-playbook ansible/main.yml -e '{"istio": {"jaeger": true}}'
+```
 
 
 This playbook will take care of downloading and installing Istio locally on your machine, before deploying the necessary Kubernetes / Openshift
