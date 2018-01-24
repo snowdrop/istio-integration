@@ -49,12 +49,21 @@ ansible-playbook ansible/main.yml -e '{"istio": {"jaeger": true}}'
 
 Some of the most important parameters are the following:
 
-| Paramter | Description | Values |
+| Parameter | Description | Values |
 | --- | --- | --- |
-| `cluster_flavour` | defines whether the target cluster is a Kubernetes or an Openshift cluster. | Valid values are `k8s` and `ocp` - default
-| `cmd_path` | can be used when the user does not have the `oc` or `kubectl` binary on the PATH |  
-| `istio.delete_resources` | should be set to true when an existing installation is already present on the cluster. By default this parameters is set to false and the playbook will fail if Istio has already been installed | 
-| `cluster_url` | should be used when the user wishes to deploy Istio on a remote Openshift cluster. The URL will be used by `oc login`. | 
+| `cluster_flavour` | defines whether the target cluster is a Kubernetes or an Openshift cluster. | Valid values are `k8s` and `ocp` (default)
+| `cluster_url` | should be used when the user wishes to deploy Istio on a remote Openshift cluster. The URL will be used by `oc login`. | |
+| `cmd_path` | can be used when the user does not have the `oc` or `kubectl` binary on the PATH | | 
+| `istio.release_tag_name` | version number of the istio distribution to be downloaded | 0.4.0 |
+| `istio.dest` | destination folder you want to install on your machine istio distribution | ~/.istio |
+| `istio.auth` | boolean value to install istio using MUTUAL_TLS | false |
+| `istio.namespace` | namespace where istio will be installed | istio-system |
+| `istio.addon` | list of addons | grafana, prometheus, zipkin, servicegraph |
+| `istio.jaeger` | bollean value to install jaeger instead of zipkin | false |
+| `istio.bookinfo` | boolean value to install the bookinfo sample | false |
+| `istio.bookinfo_namespace` | namespace where the bookinfo should be installed | bookinfo |
+| `istio.delete_resources` | boolean value to delete resources created under the istio namespace | false
+
 
 This playbook will take care of downloading and installing Istio locally on your machine, before deploying the necessary Kubernetes / Openshift
 pods, services etc. on to the cluster
