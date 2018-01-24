@@ -10,61 +10,51 @@ Table of Contents
 
 The Ansible scenario defined within this project will let you to : 
 
-- Optionally install `Minishift` and a hypervisor on your machine such as Xhyve (Darwin) or Kvm (Red Hat, Debian). Configure the `/etc/hosts` file with the clusterIP address 
-- Install `Istio` Distribution and register the `istioctl` go client under your path
-- Configure the addons to be deployed in Istio such as `Grafana`, `Prometheus`, `Servicegraph`, `Jaeger` and their corresponding routes
-- Deploy a sample project to play with Istio
+- Install `Istio` Distribution and set the path of the `istioctl` go client (if you execute the command manually)
+- Deploy Istio on Openshift or Kubernetes by specifying different parameters (version, enable auth, deploy bookinfo, ...)
+- Specify the addons to be deployed such as `Grafana`, `Prometheus`, `Servicegraph`, `Zipkin` or `Jaeger`
 
 ## Prerequisites
 
 - [Ansible 2.4](http://docs.ansible.com/ansible/latest/intro_installation.html)
 
 Refer to the Ansible Installation Doc on how to install Ansible on your machine.
-To use the minishift role to install Minishift, then use the
-Ansible Galaxy command to install the role from the repository. 
-
-```bash
-cd ~
-mkdir roles
-echo "export ANSIBLE_ROLES_PATH=~/roles" >>.bashrc
-ansible-galaxy install chouseknecht.minishift-up-role
-```
-
-- Kubernetes / Openshift cluster 
-
-The role assumes that the user can access a Kubernetes or Openshift cluster via `kubectl` or `oc` respectively. 
-Furthermore the minimum Kubernetes version that is compatible is `1.7.0` (`3.7.0` is the corresponding Openshift version).   
+To use locally `[Minishift](https://docs.openshift.org/latest/minishift/command-ref/minishift_start.html)` or `[Minikube](https://kubernetes.io/docs/getting-started-guides/minikube/)`, please refer to their respective documentation. 
 
 ## Execution
+
+The role assumes that the user :
+- Can access a Kubernetes or Openshift cluster via `kubectl` or `oc` respectively and is authenticated against the cluster. 
+- Connected to Openshift has the `admin` role on the OpenShift platform
+
+Remark : Furthermore the minimum Kubernetes version that is compatible is `1.7.0` (`3.7.0` is the corresponding OpenShift version).   
 
 **Important**: All invocations of the Ansible playbooks need to take place at the root directory of the project.
 Failing to do so will result in unexpected errors 
 
+The simplest execution command looks like the following:
  
- The simplest possible execution looks like the following:
- 
- ```bash
- ansible-playbook ansible/main.yml
- ```
+```bash
+ansible-playbook ansible/main.yml
+```
 
-The role tries it's best to be idempotent, so running the playbook multiple times should be have the same effect as running it a single time.   
+Remarks:
+- The role tries it's best to be idempotent, so running the playbook multiple times should be have the same effect as running it a single time.   
+- The default parameters that apply to this role can be found in `istio/defaults/main.yml`.
 
-The default parameters that apply to this role can be found in `istio/defaults/main.yml`. The same overriding rules apply for this profile as for the `minishift` profile.
-An example of an invocation would be:
+An example of an invocation where we want to deploy Jaeger instead of ~ipkin would be:
 ```bash
 ansible-playbook ansible/main.yml -e '{"istio": {"jaeger": true}}'
 ```
 
-Remarks:
+Some of the most important parameters are the following:
 
-A few very important parameters are the following:
-- `cluster_flavour` defines whether the target cluster is an upstream Kubernetes cluster or an Openshift cluster (which is the default). Valid values are `k8s` and `ocp`
-- `cmd_path` can be used when the user does not have the `oc` or `kubectl` binary on the PATH and additionally the 
-`run_minishift_role` parameter is set (or defaults) to false.
-- `istio.delete_resources` should be set to true when an existing installation is already present on the cluster. By default this parameters is set to false and the playbook will fail if Istio has already been installed
-- `cluster_url` should be used when the user wishes to deploy Istio on a remote Openshift cluster. The URL will be used by `oc login`.
-
-Furthermore in case of Openshift, the role assumes that the user is able to login to the target Openshift cluster using `admin/admin` credentials
+| Paramter | Description | Values |
+| --- | --- | --- |
+| `cluster_flavour` | defines whether the target cluster is a Kubernetes or an Openshift cluster. | Valid values are `k8s` and `ocp` - default
+| `cmd_path` | can be used when the user does not have the `oc` or `kubectl` binary on the PATH |  
+| `istio.delete_resources` | should be set to true when an existing installation is already present on the cluster. By default this parameters is set to false and the playbook will fail if Istio has already been installed | 
+| `cluster_url` | should be used when the user wishes to deploy Istio on a remote Openshift cluster. The URL will be used by `oc login`. | 
 
 This playbook will take care of downloading and installing Istio locally on your machine, before deploying the necessary Kubernetes / Openshift
 pods, services etc. on to the cluster
