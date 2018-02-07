@@ -39,7 +39,7 @@ ansible-playbook ansible/main.yml
 ```
 
 Remarks:
-- The role tries it's best to be idempotent, so running the playbook multiple times should be have the same effect as running it a single time.   
+- The role tries its best to be idempotent, so running the playbook multiple times should be have the same effect as running it a single time.   
 - The default parameters that apply to this role can be found in `istio/defaults/main.yml`.
 
 The full list of configurable parameters is as follows:
@@ -73,7 +73,7 @@ pods, services etc. on to the cluster
 Activating the `istio.delete_resources` flag will result in any Istio related resources being deleted from the cluster before Istio is reinstalled.
 
 In order to avoid any inconsistency issues, this flag should only be used to reinstall the same version of Istio on a cluster. If a new version
-of Istio need to be reinstalled, then it is advisable to delete the `istio-system` namespace before executing the playbook (in which case the 
+of Istio needs to be reinstalled, then it is advisable to delete the `istio-system` namespace before executing the playbook (in which case the 
 `istio.delete_resources` flag does not need to be activated)  
 
 ## Typical use cases
@@ -90,7 +90,7 @@ ansible-playbook ansible/main.yml
 ansible-playbook ansible/main.yml -e '{"cluster_flavour": "k8s"}' 
 ```
 
-- User installs Istio on to a Kubernetes cluster and the path to `kubectl` is expicitly set (perhaps it's not on the PATH)
+- User installs Istio on to a Kubernetes cluster and the path to `kubectl` is explicitly set (perhaps it's not on the PATH)
 ```bash
 ansible-playbook ansible/main.yml -e '{"cluster_flavour": "k8s", "cmd_path": "~/kubectl"}' 
 ```
