@@ -1,3 +1,10 @@
+# DEPRECATED: This repository is now in read-only mode and not maintained anymore. 
+The instructions found therein might or might not still work. The recommended Istio-on-OpenShift installation procedure is to use the [official Ansible playbook](https://github.com/istio/istio/tree/master/install/ansible)
+
+
+
+---
+
 # Istio Deployment on OpenShift
 
 The following [blog article](https://blog.openshift.com/evaluate-istio-openshift/) details how to install OpenShift.
