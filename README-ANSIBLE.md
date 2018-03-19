@@ -23,6 +23,8 @@ To use [Minishift](https://docs.openshift.org/latest/minishift/command-ref/minis
 
 ## Execution
 
+The ansible playbook has been installed locally using the Istio [distribution](https://github.com/istio/istio/releases) or by using directly the Istio github [repo](https://github.com/istio/istio/tree/0.6.0/install/ansible)
+
 The role assumes that the user :
 - Can access a Kubernetes or Openshift cluster via `kubectl` or `oc` respectively and is authenticated against the cluster. 
 - Has the `admin` role on the OpenShift platform
