@@ -31,7 +31,7 @@ The role assumes that the user :
 
 Remark : Furthermore the minimum Kubernetes version that is compatible is `1.7.0` (`3.7.0` is the corresponding OpenShift version).   
 
-**Important**: All invocations of the Ansible playbooks need to take place at the root directory of the project.
+**Important**: All invocations of the Ansible playbooks need to take place under the `install/ansible` directory of the project.
 Failing to do so will result in unexpected errors 
 
 The simplest execution command looks like the following:
