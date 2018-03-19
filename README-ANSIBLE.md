@@ -1,3 +1,5 @@
+DEPRECATED -> Use https://github.com/istio/istio/tree/master/install/ansible instead
+
 Table of Contents
 =================
 
